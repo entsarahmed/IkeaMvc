@@ -1,4 +1,4 @@
-﻿using LinkDev.Ikea.DAL.Models.Departments;
+﻿using LinkDev.Ikea.DAL.Entities.Departments;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +10,8 @@ namespace LinkDev.Ikea.DAL.Persistance.Repositories.Departments
     public interface IDepartmentRepository
     {
         IEnumerable<Department> GetAll(bool WithAsNoTracking = true);
-        Department? GetById(int id);
+        IQueryable<Department> GetAllAsIQueryable();
+        Department? Get(int id);
         int Add(Department entity);
         int Update(Department entity);
         int Delete(Department entity);
