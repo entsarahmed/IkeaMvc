@@ -1,3 +1,4 @@
+using LinkDev.Ikea.BLL.Services.Departments;
 using LinkDev.Ikea.DAL.Persistance.Data;
 using LinkDev.Ikea.DAL.Persistance.Repositories.Departments;
 using Microsoft.EntityFrameworkCore;
@@ -22,9 +23,9 @@ namespace LinkDev.Ikea.PL
             });
 
 
-            builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>(); 
+            builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
 
-
+            builder.Services.AddScoped<IDepartmentService, DepartmentService>();
             //builder.Services.AddScoped<ApplicationDbContext>();
             //builder.Services.AddScoped<DbContextOptions<ApplicationDbContext>>((ServiceProvider) =>
             //{
