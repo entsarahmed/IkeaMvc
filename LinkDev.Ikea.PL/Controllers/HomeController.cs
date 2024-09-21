@@ -1,4 +1,4 @@
-using LinkDev.Ikea.PL.Models;
+using LinkDev.Ikea.PL.ViewModels.Common;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 

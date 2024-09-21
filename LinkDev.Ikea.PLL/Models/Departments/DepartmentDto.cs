@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LinkDev.Ikea.BLL.Models.Departments
 {
-    public class DepartmentToReturnDto
+    public class DepartmentDto
     {
         public int Id { get; set; }
         //public int CreatedBy { get; set; }
