@@ -37,6 +37,7 @@ namespace LinkDev.Ikea.BLL.Services.Employees
             });
 
         }
+        var Emp = _employeeRepostrie.GetAllAsIQueryable().Where(x => !x.IsDeleted).Select(employee => new EmployeeDto
 
         public EmployeeDetailsDto? GetEmployeeById(int id)
         {
