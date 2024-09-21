@@ -10,5 +10,6 @@ namespace LinkDev.Ikea.DAL.Common.Enums
     {
         ParTime = 1,
         FullTime = 2,
+        Internship=3,
     }
 }
