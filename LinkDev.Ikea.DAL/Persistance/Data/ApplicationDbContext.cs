@@ -1,4 +1,4 @@
-﻿using LinkDev.Ikea.DAL.Models.Departments;
+﻿using LinkDev.Ikea.DAL.Entities.Departments;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -12,6 +12,7 @@ namespace LinkDev.Ikea.DAL.Persistance.Data
 
     public class ApplicationDbContext : DbContext
     {
+
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
 
