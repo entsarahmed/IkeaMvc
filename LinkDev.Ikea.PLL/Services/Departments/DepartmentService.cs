@@ -36,11 +36,11 @@ namespace LinkDev.Ikea.BLL.Services.Departments
 
         
         }
-        public DepartmentDetailsDto? GetDepartmentById(int id)
+        public EmployeeDetailsDto? GetDepartmentById(int id)
         {
             var department = _departmentRepository.Get(id);
             if (department is not null)
-                return new DepartmentDetailsDto()
+                return new EmployeeDetailsDto()
                 {
                     Id=department.Id,
                     Name=department.Name,
@@ -55,7 +55,7 @@ namespace LinkDev.Ikea.BLL.Services.Departments
                 };
             return null;
         }
-        public int createdDepartment(CreatedDepartmentDto departmentDto)
+        public int createdDepartment(CreatedEmployeeDto departmentDto)
         {
             var CreatedDepartment = new Department()
             {
@@ -70,7 +70,7 @@ namespace LinkDev.Ikea.BLL.Services.Departments
             return _departmentRepository.Add(CreatedDepartment);
         }
 
-        public int UpdatedDepartment(UpdatedDepartmentDto departmentDto)
+        public int UpdatedDepartment(UpdatedEmployeeDto departmentDto)
         {
             var department = new Department()
             {

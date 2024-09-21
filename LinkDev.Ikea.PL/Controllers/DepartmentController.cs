@@ -73,7 +73,7 @@ namespace LinkDev.Ikea.PL.Controllers
 
 
         [HttpPost]
-        public IActionResult Create(CreatedDepartmentDto department)
+        public IActionResult Create(CreatedEmployeeDto department)
         {
             if (!ModelState.IsValid)
                 return View(department);
@@ -146,7 +146,7 @@ namespace LinkDev.Ikea.PL.Controllers
 
             try
             {
-                var departmentToUpdate = new UpdatedDepartmentDto()
+                var departmentToUpdate = new UpdatedEmployeeDto()
                 {
                     Id=id,
                     Code= departmentVM.Code,

@@ -1,6 +1,7 @@
 ﻿using LinkDev.Ikea.DAL.Entities;
 using LinkDev.Ikea.DAL.Persistance.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
 
 namespace LinkDev.Ikea.DAL.Persistance.Repositories._Generic
 {
@@ -16,8 +17,8 @@ namespace LinkDev.Ikea.DAL.Persistance.Repositories._Generic
         public IEnumerable<T> GetAll(bool WithAsNoTracking = true)
         {
         if (WithAsNoTracking)
-                return _dbContext.Set<T>().Where(D => D.Id > 10).AsNoTracking().ToList();
-        return _dbContext.Set<T>().ToList();
+                return _dbContext.Set<T>().Where(X => X.IsDeleted).AsNoTracking().ToList();
+        return _dbContext.Set<T>().Where(X => X.IsDeleted).ToList();
         }
         public IQueryable<T> GetAllAsIQueryable()
         {
@@ -50,7 +51,8 @@ namespace LinkDev.Ikea.DAL.Persistance.Repositories._Generic
 
         public int Delete(T entity)
         {
-            _dbContext.Set<T>().Remove(entity);
+            entity.IsDeleted = true;
+            _dbContext.Set<T>().Update(entity);
             return _dbContext.SaveChanges();
         }
     }
