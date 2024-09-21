@@ -34,9 +34,9 @@ namespace LinkDev.Ikea.BLL.Models.Employees
         [DataType(DataType.EmailAddress)]
         public string? Email { get; set; }
 
-        public string Gender { get; set; } = null!;
+        public Gender Gender { get; set; }
 
-        public string EmployeeType { get; set; } = null!;
+        public EmployeeType EmployeeType { get; set; } 
 
         [Display(Name = "Phone Number")]
         [Phone]

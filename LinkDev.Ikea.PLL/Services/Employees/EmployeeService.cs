@@ -54,8 +54,8 @@ namespace LinkDev.Ikea.BLL.Services.Employees
                     IsActive=employee.IsActive,
                     Email=employee.Email,
                     Salary=employee.Salary,
-                    Gender = employee.Gender.ToString(),
-                    EmployeeType= employee.EmployeeType.ToString(),
+                    Gender = employee.Gender,
+                    EmployeeType= employee.EmployeeType,
 
                 };
             return null;
