@@ -4,6 +4,7 @@ using LinkDev.Ikea.BLL.Services.Departments;
 using LinkDev.Ikea.BLL.Services.Employees;
 using LinkDev.Ikea.DAL.Entities.Departments;
 using LinkDev.Ikea.PL.ViewModels.Departments;
+using LinkDev.Ikea.PL.ViewModels.Employees;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.DotNet.Scaffolding.Shared.Messaging;
 
@@ -125,6 +126,18 @@ namespace LinkDev.Ikea.PL.Controllers
             return View(new EmployeeEditViewModel()
             {
                 Name = employee.Name,
+                Address= employee.Address,
+                EmployeeType=employee.EmployeeType,
+                Gender=employee.Gender,
+                Email=employee.Email,
+                Age=employee.Age,
+                HiringDate=employee.HiringDate,
+                IsActive=employee.IsActive,
+                PhoneNumber=employee.PhoneNumber,
+                Salary=employee.Salary,
+
+
+             
             }
                 );
 
