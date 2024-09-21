@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace LinkDev.Ikea.DAL.Persistance.Repositories.Employees
 {
-    internal class EmployeeRepository : GenericRepository<Employee>, IEmployeeRepository
+    public class EmployeeRepository : GenericRepository<Employee>, IEmployeeRepository
     {
        public EmployeeRepository(ApplicationDbContext dbContext):base(dbContext) 
         {

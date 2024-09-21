@@ -1,4 +1,5 @@
 ﻿using LinkDev.Ikea.BLL.Models.Departments;
+using LinkDev.Ikea.BLL.Models.Employees;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace LinkDev.Ikea.BLL.Services.Employees
 {
-    internal interface IEmployeeService
+    public interface IEmployeeService
     {
         IEnumerable<EmployeeDto> GetEmployees();
         EmployeeDetailsDto? GetEmployeeById(int id);

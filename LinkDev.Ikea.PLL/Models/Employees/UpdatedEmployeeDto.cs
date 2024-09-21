@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LinkDev.Ikea.BLL.Models.Departments
+namespace LinkDev.Ikea.BLL.Models.Employees
 {
     public class UpdatedEmployeeDto
     {

@@ -1,6 +1,8 @@
 using LinkDev.Ikea.BLL.Services.Departments;
+using LinkDev.Ikea.BLL.Services.Employees;
 using LinkDev.Ikea.DAL.Persistance.Data;
 using LinkDev.Ikea.DAL.Persistance.Repositories.Departments;
+using LinkDev.Ikea.DAL.Persistance.Repositories.Employees;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
@@ -24,16 +26,11 @@ namespace LinkDev.Ikea.PL
 
 
             builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
+            builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 
             builder.Services.AddScoped<IDepartmentService, DepartmentService>();
-            //builder.Services.AddScoped<ApplicationDbContext>();
-            //builder.Services.AddScoped<DbContextOptions<ApplicationDbContext>>((ServiceProvider) =>
-            //{
-            //    var optionsBuilder  = new DbContextOptionsBuilder<ApplicationDbContext>();
-            //    optionsBuilder.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
-            //    var options = optionsBuilder.Options;
-            //   return options;
-            //});
+            builder.Services.AddScoped<IEmployeeService, EmployeeService>();
+            
 
 
             #endregion

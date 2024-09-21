@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LinkDev.Ikea.BLL.Models.Departments
+namespace LinkDev.Ikea.BLL.Models.Employees
 {
     public class EmployeeDetailsDto
     {
@@ -42,7 +42,16 @@ namespace LinkDev.Ikea.BLL.Models.Departments
         [Phone]
         //[DataType(DateType.PhoneNumber)]
         public string? PhoneNumber { get; set; }
-        
+        #region Adminstration
+        public int CreatedBy { get; set; }
+        public DateTime CreatedOn { get; set; }
+        public int LastModifiedBy { get; set; }
+        public DateTime LastModifiedOn { get; set; }
+
+        [Display(Name = "Hiring Date")]
+        public DateOnly HiringDate { get; set; }
+        #endregion
+
 
     }
 }

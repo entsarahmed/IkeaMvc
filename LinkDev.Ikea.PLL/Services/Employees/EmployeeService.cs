@@ -1,4 +1,4 @@
-﻿using LinkDev.Ikea.BLL.Models.Departments;
+﻿using LinkDev.Ikea.BLL.Models.Employees;
 using LinkDev.Ikea.DAL.Entities.Employees;
 using LinkDev.Ikea.DAL.Persistance.Repositories.Employees;
 using System;
@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace LinkDev.Ikea.BLL.Services.Employees
 {
-    internal class EmployeeService : IEmployeeService
+    public class EmployeeService : IEmployeeService
     {
         private readonly IEmployeeRepository _employeeRepository;
 
@@ -30,8 +30,8 @@ namespace LinkDev.Ikea.BLL.Services.Employees
                 IsActive=employee.IsActive,
                 Email=employee.Email,
                 Salary=employee.Salary,
-                Gender =nameof(employee.Gender),
-                EmployeeType=nameof(employee.EmployeeType),
+                Gender =employee.Gender.ToString(),
+                EmployeeType=employee.EmployeeType.ToString(),
 
 
             });
@@ -54,8 +54,8 @@ namespace LinkDev.Ikea.BLL.Services.Employees
                     IsActive=employee.IsActive,
                     Email=employee.Email,
                     Salary=employee.Salary,
-                    Gender =nameof(employee.Gender),
-                    EmployeeType=nameof(employee.EmployeeType),
+                    Gender = employee.Gender.ToString(),
+                    EmployeeType= employee.EmployeeType.ToString(),
 
                 };
             return null;
