@@ -14,11 +14,12 @@ namespace LinkDev.Ikea.PL.Controllers
         //[FromServices]
         //public IDepartmentService DepartmentService { get; } = null!;
 
+        #region Services
         private readonly IDepartmentService _departmentService;
         private readonly ILogger<DepartmentController> _logger;
         private readonly IWebHostEnvironment _environment;
 
-        
+
 
         public DepartmentController(IDepartmentService departmentService, IWebHostEnvironment environment, ILogger<DepartmentController> logger)
         {
@@ -27,7 +28,11 @@ namespace LinkDev.Ikea.PL.Controllers
             _logger=logger;
 
         }
+        #endregion
 
+
+
+        #region Index
         [HttpGet] //Get: /Department/Index
         public IActionResult Index()
         {
@@ -35,7 +40,10 @@ namespace LinkDev.Ikea.PL.Controllers
             return View(departments);
         }
 
+        #endregion
 
+
+        #region Details
 
         [HttpGet] // Get: /Department/Details
         public IActionResult Details(int? id)
@@ -51,13 +59,17 @@ namespace LinkDev.Ikea.PL.Controllers
 
         }
 
+        #endregion
 
 
+
+        #region Create
         [HttpGet] //Get: /Department/Create
         public IActionResult Create()
         {
             return View();
         }
+
 
 
         [HttpPost]
@@ -79,9 +91,9 @@ namespace LinkDev.Ikea.PL.Controllers
                 }
             }
             catch (Exception ex)
-             {
-               //1. Log Exception 
-               _logger.LogError(ex, ex.Message);
+            {
+                //1. Log Exception 
+                _logger.LogError(ex, ex.Message);
                 //2. Set Message
                 message=_environment.IsDevelopment() ? ex.Message : "an error has occured during Creation the department :(";
 
@@ -90,25 +102,29 @@ namespace LinkDev.Ikea.PL.Controllers
             }
             ModelState.AddModelError(string.Empty, message);
             return View(department);
-            }
+        }
+
+        #endregion
 
 
 
 
+
+        #region Update
 
         [HttpGet] //Get: /Department/Edit/id
 
         public IActionResult Edit(int? id)
         {
             if (id is null)
-                 return BadRequest();//400
+                return BadRequest();//400
 
             var department = _departmentService.GetDepartmentById(id.Value);
 
             if (department is null)
                 return NotFound();//404
 
-            return View(new DepartmentEditViewModel ()
+            return View(new DepartmentEditViewModel()
             {
                 Code = department.Code,
                 Name = department.Name,
@@ -117,14 +133,14 @@ namespace LinkDev.Ikea.PL.Controllers
             }
                 );
 
-            
+
         }
 
         [HttpPost] //Post
-        public IActionResult Edit([FromRoute]int id, DepartmentEditViewModel departmentVM)
+        public IActionResult Edit([FromRoute] int id, DepartmentEditViewModel departmentVM)
         {
             if (!ModelState.IsValid)//Sever-Side Validation
-                 return View(departmentVM);
+                return View(departmentVM);
 
             var Message = string.Empty;
 
@@ -156,9 +172,64 @@ namespace LinkDev.Ikea.PL.Controllers
 
 
             }
-            ModelState.AddModelError(string.Empty,Message);
+            ModelState.AddModelError(string.Empty, Message);
             return View(departmentVM);
         }
+
+        #endregion
+
+
+        #region Delete
+
+        [HttpGet] // Get: /Department/Delete/id?
+        public IActionResult Delete(int? id)
+        {
+            if (id is null)
+                return BadRequest();
+
+            var department = _departmentService.GetDepartmentById(id.Value);
+
+            if (department is null)
+                return NotFound();
+
+            return View(department);
+
+        }
+
+
+        [HttpPost] //Post
+        public IActionResult Delete(int id)
+        {
+            var message = string.Empty;
+
+            try
+            {
+
+                var deleted = _departmentService.DeleteDepartment(id);
+                if (deleted)
+                    return RedirectToAction("Index");
+                message= "an error has occured during deleting the department :(";
+
+            }
+            catch (Exception ex)
+            {
+
+                //1. Log Exception 
+                _logger.LogError(ex, ex.Message);
+
+
+                //2. Set Message
+                message=_environment.IsDevelopment() ? ex.Message : "an error has occured during deleting the department :(";
+            }
+            //ModelState.AddModelError(string.Empty, message);
+            return RedirectToAction(nameof(Index));
+
+        } 
+        #endregion
+
+
+
+
 
     }
 }
