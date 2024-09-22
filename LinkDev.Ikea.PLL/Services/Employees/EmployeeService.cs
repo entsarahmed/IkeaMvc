@@ -22,7 +22,7 @@ namespace LinkDev.Ikea.BLL.Services.Employees
 
         public IEnumerable<EmployeeDto> GetEmployees()
         {
-            var query = _employeeRepository.GetAllAsIQueryable().Where(E => !E.IsDeleted).Select(employee => new EmployeeDto()
+            var query = _employeeRepository.GetIQueryable().Where(E => !E.IsDeleted).Select(employee => new EmployeeDto()
             {
                 Id=employee.Id,
                 Name=employee.Name,
@@ -36,9 +36,34 @@ namespace LinkDev.Ikea.BLL.Services.Employees
 
             }).ToList();
 
-            
+            var employee =query.ToList();
+            var first = query.FirstOrDefault();
+            var count = query.Count();
 
-            return query;
+            return employee;
+
+        }
+        public IEnumerable<EmployeeDto> GettEmployees()
+        {
+            var query = _employeeRepository.GetIEnumerable().Where(E => !E.IsDeleted).Select(employee => new EmployeeDto()
+            {
+                Id=employee.Id,
+                Name=employee.Name,
+                Age=employee.Age,
+                IsActive=employee.IsActive,
+                Email=employee.Email,
+                Salary=employee.Salary,
+                Gender =employee.Gender.ToString(),
+                EmployeeType=employee.EmployeeType.ToString(),
+
+
+            }).ToList();
+
+            var employee = query.ToList();
+            var first = query.FirstOrDefault();
+            var count = query.Count();
+
+            return employee;
 
         }
 
