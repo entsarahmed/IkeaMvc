@@ -26,10 +26,6 @@ namespace LinkDev.Ikea.DAL.Persistance.Repositories._Generic
         }
 
 
-        public IEnumerable<T> GetIEnumerable()
-        {
-            return _dbContext.Set<T>();
-        }
 
 
         public T? Get(int id)

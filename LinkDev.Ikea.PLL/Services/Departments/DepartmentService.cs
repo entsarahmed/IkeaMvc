@@ -21,7 +21,7 @@ namespace LinkDev.Ikea.BLL.Services.Departments
 
         public IEnumerable<DepartmentDto> GetDepartments()
         {
-            var departments = _departmentRepository.GetAllAsIQueryable().Select(D => new DepartmentDto
+            var departments = _departmentRepository.GetIQueryable().Select(D => new DepartmentDto
             {
                 Id = D.Id,
                 Name = D.Name,
