@@ -4,7 +4,6 @@ using LinkDev.Ikea.BLL.Services.Departments;
 using LinkDev.Ikea.BLL.Services.Employees;
 using LinkDev.Ikea.DAL.Entities.Departments;
 using LinkDev.Ikea.PL.ViewModels.Departments;
-using LinkDev.Ikea.PL.ViewModels.Employees;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.DotNet.Scaffolding.Shared.Messaging;
 
@@ -123,7 +122,7 @@ namespace LinkDev.Ikea.PL.Controllers
             if (employee is null)
                 return NotFound();//404
 
-            return View(new EmployeeEditViewModel()
+            return View(new UpdatedEmployeeDto()
             {
                 Name = employee.Name,
                 Address= employee.Address,
@@ -145,21 +144,18 @@ namespace LinkDev.Ikea.PL.Controllers
         }
 
         [HttpPost] //Post
-        public IActionResult Edit([FromRoute] int id, EmployeeEditViewModel employeeVM)
+        public IActionResult Edit([FromRoute] int id, UpdatedEmployeeDto employee)
         {
             if (!ModelState.IsValid)//Sever-Side Validation
-                return View(employeeVM);
+                return View(employee);
 
             var Message = string.Empty;
 
             try
             {
-                var employeeToUpdate = new UpdatedEmployeeDto()
-                {
-                   
-                };
+                
 
-                var updated = _employeeService.UpdatedEmployee(employeeToUpdate) > 0;
+                var updated = _employeeService.UpdatedEmployee(employee) > 0;
                 if (updated)
                     return RedirectToAction("Index");
                 Message= "an error has occured during Updating the employee :(";
@@ -177,7 +173,7 @@ namespace LinkDev.Ikea.PL.Controllers
 
             }
             ModelState.AddModelError(string.Empty, Message);
-            return View(employeeVM);
+            return View(employee);
         }
 
         #endregion
