@@ -74,21 +74,28 @@ namespace LinkDev.Ikea.PL.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(CreatedDepartmentDto  department)
+        public IActionResult Create(DepartmentViewModel  departmentVM)
         {
             if (!ModelState.IsValid)
-                return View(department);
+                return View(departmentVM);
             var message = string.Empty;
             try
             {
-                var result = _departmentService.createdDepartment(department);
+                var createdDepartment = new CreatedDepartmentDto()
+                {
+                    Code= departmentVM.Code,
+                    Name= departmentVM.Name,
+                    Description=departmentVM.Description,
+                    CreationDate=departmentVM.CreationDate,
+                };
+                var result = _departmentService.createdDepartment(createdDepartment);
                 if (result > 0)
                     return RedirectToAction("Index");
                 else
                 {
                     message= "Department is not Created";
                     ModelState.AddModelError(string.Empty, message);
-                    return View(department);
+                    return View(departmentVM);
                 }
             }
             catch (Exception ex)
@@ -102,7 +109,7 @@ namespace LinkDev.Ikea.PL.Controllers
 
             }
             ModelState.AddModelError(string.Empty, message);
-            return View(department);
+            return View(departmentVM);
         }
 
         #endregion
@@ -125,7 +132,7 @@ namespace LinkDev.Ikea.PL.Controllers
             if (department is null)
                 return NotFound();//404
 
-            return View(new DepartmentEditViewModel()
+            return View(new DepartmentViewModel()
             {
                 Code = department.Code,
                 Name = department.Name,
@@ -139,7 +146,7 @@ namespace LinkDev.Ikea.PL.Controllers
 
         [HttpPost] //Post
         [ValidateAntiForgeryToken]
-        public IActionResult Edit([FromRoute] int id, DepartmentEditViewModel departmentVM)
+        public IActionResult Edit([FromRoute] int id, DepartmentViewModel departmentVM)
         {
             if (!ModelState.IsValid)//Sever-Side Validation
                 return View(departmentVM);
