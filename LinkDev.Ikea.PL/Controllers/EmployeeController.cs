@@ -71,6 +71,7 @@ namespace LinkDev.Ikea.PL.Controllers
 
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Create(CreatedEmployeeDto  employee)
         {
             if (!ModelState.IsValid)
@@ -144,6 +145,7 @@ namespace LinkDev.Ikea.PL.Controllers
         }
 
         [HttpPost] //Post
+        [ValidateAntiForgeryToken]
         public IActionResult Edit([FromRoute] int id, UpdatedEmployeeDto employee)
         {
             if (!ModelState.IsValid)//Sever-Side Validation
@@ -198,6 +200,7 @@ namespace LinkDev.Ikea.PL.Controllers
 
 
         [HttpPost] //Post
+        [ValidateAntiForgeryToken]
         public IActionResult Delete(int id)
         {
             var message = string.Empty;
