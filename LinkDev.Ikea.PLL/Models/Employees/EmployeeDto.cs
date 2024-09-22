@@ -35,7 +35,7 @@ namespace LinkDev.Ikea.BLL.Models.Employees
 
         public string? EmployeeType { get; set; }
 
-
+        public string Department { get; set; } = null!;
 
 
         

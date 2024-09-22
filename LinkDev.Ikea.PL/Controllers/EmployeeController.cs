@@ -65,6 +65,7 @@ namespace LinkDev.Ikea.PL.Controllers
         [HttpGet] 
         public IActionResult Create()
         {
+
             return View();
         }
 

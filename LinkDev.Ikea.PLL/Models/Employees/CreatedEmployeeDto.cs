@@ -45,6 +45,8 @@ namespace LinkDev.Ikea.BLL.Models.Employees
 
         public EmployeeType EmployeeType { get; set; }
 
+
+        [Display(Name = "Department")]
         public int? DepartmentId { get; set; }
 
     }

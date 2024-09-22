@@ -52,6 +52,6 @@ namespace LinkDev.Ikea.BLL.Models.Employees
         public DateOnly HiringDate { get; set; }
         #endregion
 
-
+        public int? DepartmentId { get; set; }
     }
 }

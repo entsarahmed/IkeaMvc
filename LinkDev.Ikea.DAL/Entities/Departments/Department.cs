@@ -15,7 +15,7 @@ namespace LinkDev.Ikea.DAL.Entities.Departments
         public DateOnly CreationDate { get; set; }
 
         //Navigational Property [Many]
-        public ICollection<Employee> Employees { get; set; } = new HashSet<Employee>();
+        public virtual ICollection<Employee> Employees { get; set; } = new HashSet<Employee>();
 
 
     }
