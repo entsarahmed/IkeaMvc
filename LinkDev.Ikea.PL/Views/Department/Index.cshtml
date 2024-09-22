@@ -1,7 +1,19 @@
 ﻿@model IEnumerable<DepartmentDto>
 @{
     ViewData["Title"] = "Departments";
+    string? viewDataMessage = ViewData["Message"] as string; //Compiler can Enforce Type Safety
+    string? viewBagMessage = ViewBag.Message; //Compiler will Escape Type checking at compilation
+
 }
+<div class="alert alert-info">
+@ViewData["Message"]
+
+</div>
+
+<div class="alert alert-info">
+    @ViewBag.Message
+
+</div>
 
 <br />
 <br />

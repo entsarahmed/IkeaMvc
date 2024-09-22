@@ -33,9 +33,28 @@ namespace LinkDev.Ikea.PL.Controllers
 
 
         #region Index
+        
+        // View's Dictionary: Pass Data From Controller[Action] to View (from View  -> [PartialView,Layout]
+
+        //Pass Data from View to Partial View
+
+        //Pass Data from View to Layout that using View
+
+
         [HttpGet] //Get: /Department/Index
         public IActionResult Index()
         {
+            //1. ViewData ia a Dictionary Type Property (introduced in ASP.NET FrameWork 3.1
+            /////   => It helps us to transfer the data from Controller[Action] to View 
+            ///
+            ViewData["Message"] = "Hello ViewData";
+
+
+            //2. ViewBags is a Dynamic Type Property (introduced in ASP.NET Framework 4.0
+            // => It helps us to transfer the data from controller
+
+            ViewBag.Message="Hello ViewBag";
+
             var departments = _departmentService.GetDepartments();
             return View(departments);
         }
