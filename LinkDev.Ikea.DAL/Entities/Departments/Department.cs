@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LinkDev.Ikea.DAL.Entities.Employees;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,6 +13,10 @@ namespace LinkDev.Ikea.DAL.Entities.Departments
         public string Code { get; set; } = null!;
         public string? Description { get; set; }
         public DateOnly CreationDate { get; set; }
+
+        //Navigational Property [Many]
+        public ICollection<Employee> Employees { get; set; } = new HashSet<Employee>();
+
 
     }
 }

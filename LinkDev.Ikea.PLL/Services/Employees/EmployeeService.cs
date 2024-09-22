@@ -86,6 +86,8 @@ namespace LinkDev.Ikea.BLL.Services.Employees
                 HiringDate=employeeDto.HiringDate,
                 Gender =employeeDto.Gender,
                 EmployeeType=employeeDto.EmployeeType,
+                DepartmentId=employeeDto.DepartmentId,
+
                 CreatedBy=1,
                 LastModifiedBy=1,
                 CreatedOn= DateTime.UtcNow,
@@ -110,6 +112,7 @@ namespace LinkDev.Ikea.BLL.Services.Employees
                 HiringDate=employeeDto.HiringDate,
                 Gender =employeeDto.Gender,
                 EmployeeType=employeeDto.EmployeeType,
+
                 CreatedBy=1,
                 LastModifiedBy=1,
                 CreatedOn= DateTime.UtcNow,
