@@ -18,7 +18,7 @@ namespace LinkDev.Ikea.DAL.Persistance.Data.Configurations.Departments
             builder.Property(D => D.Name).HasColumnType("varchar(50)").IsRequired();
             builder.Property(D => D.Code).HasColumnType("varchar(30)").IsRequired();
             builder.Property(D => D.LastModifiedOn).HasComputedColumnSql("GETDATE()");
-            builder.Property(D => D.CreatedOn).HasComputedColumnSql("GETDATE()");
+            builder.Property(D => D.CreatedOn).HasComputedColumnSql("GETUTCDATE()");
 
 
         }

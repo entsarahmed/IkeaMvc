@@ -19,9 +19,9 @@ namespace LinkDev.Ikea.BLL.Services.Departments
             _departmentRepository=departmentRepository;
         }
 
-        public IEnumerable<DepartmentToReturnDto> GetDepartments()
+        public IEnumerable<DepartmentDto> GetDepartments()
         {
-            var departments = _departmentRepository.GetAllAsIQueryable().Select(D => new DepartmentToReturnDto
+            var departments = _departmentRepository.GetAllAsIQueryable().Select(D => new DepartmentDto
             {
                 Id = D.Id,
                 Name = D.Name,
@@ -36,11 +36,11 @@ namespace LinkDev.Ikea.BLL.Services.Departments
 
         
         }
-        public DepartmentDetailsReturnDto? GetDepartmentById(int id)
+        public DepartmentDetailsDto? GetDepartmentById(int id)
         {
             var department = _departmentRepository.Get(id);
             if (department is not null)
-                return new DepartmentDetailsReturnDto()
+                return new DepartmentDetailsDto()
                 {
                     Id=department.Id,
                     Name=department.Name,

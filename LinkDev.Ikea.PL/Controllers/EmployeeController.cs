@@ -1,5 +1,7 @@
 ﻿using LinkDev.Ikea.BLL.Models.Departments;
+using LinkDev.Ikea.BLL.Models.Employees;
 using LinkDev.Ikea.BLL.Services.Departments;
+using LinkDev.Ikea.BLL.Services.Employees;
 using LinkDev.Ikea.DAL.Entities.Departments;
 using LinkDev.Ikea.PL.ViewModels.Departments;
 using Microsoft.AspNetCore.Mvc;
@@ -7,23 +9,19 @@ using Microsoft.DotNet.Scaffolding.Shared.Messaging;
 
 namespace LinkDev.Ikea.PL.Controllers
 {
-    //1. Inheritance: DepartmentController is a  Controller
-    //2. Composition: DepartmentController has a IDepartmentService
-    public class DepartmentController : Controller
+    public class EmployeeController : Controller
     {
-        //[FromServices]
-        //public IDepartmentService DepartmentService { get; } = null!;
 
         #region Services
-        private readonly IDepartmentService _departmentService;
-        private readonly ILogger<DepartmentController> _logger;
+        private readonly IEmployeeService _employeeService;
+        private readonly ILogger<EmployeeController> _logger;
         private readonly IWebHostEnvironment _environment;
 
 
 
-        public DepartmentController(IDepartmentService departmentService, IWebHostEnvironment environment, ILogger<DepartmentController> logger)
+        public EmployeeController(IEmployeeService employeeService, IWebHostEnvironment environment, ILogger<EmployeeController> logger)
         {
-            _departmentService=departmentService;
+            _employeeService=employeeService;
             _environment=environment;
             _logger=logger;
 
@@ -33,10 +31,10 @@ namespace LinkDev.Ikea.PL.Controllers
 
 
         #region Index
-        [HttpGet] //Get: /Department/Index
+        [HttpGet] 
         public IActionResult Index()
         {
-            var departments = _departmentService.GetDepartments();
+            var departments = _employeeService.GetEmployees();
             return View(departments);
         }
 
@@ -45,17 +43,17 @@ namespace LinkDev.Ikea.PL.Controllers
 
         #region Details
 
-        [HttpGet] // Get: /Department/Details
+        [HttpGet] 
         public IActionResult Details(int? id)
         {
             if (id == null)
             {
                 return BadRequest();
             }
-            var department = _departmentService.GetDepartmentById(id.Value);
-            if (department is null)
+            var employee = _employeeService.GetEmployeeById(id.Value);
+            if (employee is null)
                 return NotFound();
-            return View(department);
+            return View(employee);
 
         }
 
@@ -64,7 +62,7 @@ namespace LinkDev.Ikea.PL.Controllers
 
 
         #region Create
-        [HttpGet] //Get: /Department/Create
+        [HttpGet] 
         public IActionResult Create()
         {
             return View();
@@ -73,21 +71,21 @@ namespace LinkDev.Ikea.PL.Controllers
 
 
         [HttpPost]
-        public IActionResult Create(CreatedDepartmentDto  department)
+        public IActionResult Create(CreatedEmployeeDto  employee)
         {
             if (!ModelState.IsValid)
-                return View(department);
+                return View(employee);
             var message = string.Empty;
             try
             {
-                var result = _departmentService.createdDepartment(department);
+                var result = _employeeService.createdEmployee(employee);
                 if (result > 0)
                     return RedirectToAction("Index");
                 else
                 {
-                    message= "Department is not Created";
+                    message= "Employee is not Created";
                     ModelState.AddModelError(string.Empty, message);
-                    return View(department);
+                    return View(employee);
                 }
             }
             catch (Exception ex)
@@ -95,13 +93,13 @@ namespace LinkDev.Ikea.PL.Controllers
                 //1. Log Exception 
                 _logger.LogError(ex, ex.Message);
                 //2. Set Message
-                message=_environment.IsDevelopment() ? ex.Message : "an error has occured during Creation the department :(";
+                message=_environment.IsDevelopment() ? ex.Message : "an error has occured during Creation the employee :(";
 
 
 
             }
             ModelState.AddModelError(string.Empty, message);
-            return View(department);
+            return View(employee);
         }
 
         #endregion
@@ -112,24 +110,33 @@ namespace LinkDev.Ikea.PL.Controllers
 
         #region Update
 
-        [HttpGet] //Get: /Department/Edit/id
+        [HttpGet] 
 
         public IActionResult Edit(int? id)
         {
             if (id is null)
                 return BadRequest();//400
 
-            var department = _departmentService.GetDepartmentById(id.Value);
+            var employee = _employeeService.GetEmployeeById(id.Value);
 
-            if (department is null)
+            if (employee is null)
                 return NotFound();//404
 
-            return View(new DepartmentEditViewModel()
+            return View(new UpdatedEmployeeDto()
             {
-                Code = department.Code,
-                Name = department.Name,
-                Description = department.Description,
-                CreationDate = department.CreationDate,
+                Name = employee.Name,
+                Address= employee.Address,
+                EmployeeType=employee.EmployeeType,
+                Gender=employee.Gender,
+                Email=employee.Email,
+                Age=employee.Age,
+                HiringDate=employee.HiringDate,
+                IsActive=employee.IsActive,
+                PhoneNumber=employee.PhoneNumber,
+                Salary=employee.Salary,
+
+
+             
             }
                 );
 
@@ -137,28 +144,21 @@ namespace LinkDev.Ikea.PL.Controllers
         }
 
         [HttpPost] //Post
-        public IActionResult Edit([FromRoute] int id, DepartmentEditViewModel departmentVM)
+        public IActionResult Edit([FromRoute] int id, UpdatedEmployeeDto employee)
         {
             if (!ModelState.IsValid)//Sever-Side Validation
-                return View(departmentVM);
+                return View(employee);
 
             var Message = string.Empty;
 
             try
             {
-                var departmentToUpdate = new UpdatedDepartmentDto()
-                {
-                    Id=id,
-                    Code= departmentVM.Code,
-                    Name= departmentVM.Name,
-                    Description=departmentVM.Description,
-                    CreationDate=departmentVM.CreationDate,
-                };
+                
 
-                var updated = _departmentService.UpdatedDepartment(departmentToUpdate) > 0;
+                var updated = _employeeService.UpdatedEmployee(employee) > 0;
                 if (updated)
                     return RedirectToAction("Index");
-                Message= "an error has occured during Updating the department :(";
+                Message= "an error has occured during Updating the employee :(";
             }
             catch (Exception ex)
             {
@@ -167,19 +167,36 @@ namespace LinkDev.Ikea.PL.Controllers
 
 
                 //2. Set Message
-                Message=_environment.IsDevelopment() ? ex.Message : "an error has occured during Updating the department :(";
+                Message=_environment.IsDevelopment() ? ex.Message : "an error has occured during Updating the employee :(";
 
 
 
             }
             ModelState.AddModelError(string.Empty, Message);
-            return View(departmentVM);
+            return View(employee);
         }
 
         #endregion
 
 
         #region Delete
+
+        [HttpGet] 
+        public IActionResult Delete(int? id)
+        {
+            if (id is null)
+                return BadRequest();
+
+            var department = _employeeService.GetEmployeeById(id.Value);
+
+            if (department is null)
+                return NotFound();
+
+            return View(department);
+
+        }
+
+
         [HttpPost] //Post
         public IActionResult Delete(int id)
         {
@@ -188,10 +205,10 @@ namespace LinkDev.Ikea.PL.Controllers
             try
             {
 
-                var deleted = _departmentService.DeleteDepartment(id);
+                var deleted = _employeeService.DeleteEmployee(id);
                 if (deleted)
                     return RedirectToAction("Index");
-                message= "an error has occured during deleting the department :(";
+                message= "an error has occured during deleting the employee :(";
 
             }
             catch (Exception ex)
@@ -202,7 +219,7 @@ namespace LinkDev.Ikea.PL.Controllers
 
 
                 //2. Set Message
-                message=_environment.IsDevelopment() ? ex.Message : "an error has occured during deleting the department :(";
+                message=_environment.IsDevelopment() ? ex.Message : "an error has occured during deleting the employee :(";
             }
             //ModelState.AddModelError(string.Empty, message);
             return RedirectToAction(nameof(Index));
