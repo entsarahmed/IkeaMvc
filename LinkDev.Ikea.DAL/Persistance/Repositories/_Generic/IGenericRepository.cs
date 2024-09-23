@@ -10,7 +10,7 @@ namespace LinkDev.Ikea.DAL.Persistance.Repositories._Generic
     public interface IGenericRepository <T> where T : ModelBase
     {
         IEnumerable<T> GetAll(bool WithAsNoTracking = true);
-        IQueryable<T> GetAllAsIQueryable();
+        IQueryable<T> GetIQueryable();
         T? Get(int id);
         int Add(T entity);
         int Update(T entity);

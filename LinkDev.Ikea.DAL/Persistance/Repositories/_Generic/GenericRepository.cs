@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
 
 namespace LinkDev.Ikea.DAL.Persistance.Repositories._Generic
 {
-    public class GenericRepository<T> where T : ModelBase
+    public class GenericRepository<T> : IGenericRepository<T> where T : ModelBase 
     {
          private readonly ApplicationDbContext _dbContext;
 
@@ -20,10 +20,13 @@ namespace LinkDev.Ikea.DAL.Persistance.Repositories._Generic
                 return _dbContext.Set<T>().Where(X => !X.IsDeleted).AsNoTracking().ToList();
         return _dbContext.Set<T>().Where(X => !X.IsDeleted).ToList();
         }
-        public IQueryable<T> GetAllAsIQueryable()
+        public IQueryable<T> GetIQueryable()
         {
             return _dbContext.Set<T>() ;
         }
+
+
+
 
         public T? Get(int id)
         {

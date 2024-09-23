@@ -1,4 +1,5 @@
 ﻿using LinkDev.Ikea.DAL.Common.Enums;
+using LinkDev.Ikea.DAL.Entities.Departments;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -43,6 +44,13 @@ namespace LinkDev.Ikea.DAL.Entities.Employees
 
         public  EmployeeType EmployeeType { get; set; }
 
+
+        public int? DepartmentId { get; set; }
+
+        //Navigational Property [One] [Related Data]
+        public virtual Department? Department { get; set; }
+
+             
 
     }
 }

@@ -33,9 +33,28 @@ namespace LinkDev.Ikea.PL.Controllers
 
 
         #region Index
+        
+        // View's Dictionary: Pass Data From Controller[Action] to View (from View  -> [PartialView,Layout]
+
+        //Pass Data from View to Partial View
+
+        //Pass Data from View to Layout that using View
+
+
         [HttpGet] //Get: /Department/Index
         public IActionResult Index()
         {
+            //1. ViewData ia a Dictionary Type Property (introduced in ASP.NET FrameWork 3.1
+            /////   => It helps us to transfer the data from Controller[Action] to View 
+            ///
+            ViewData["Message"] = "Hello ViewData";
+
+
+            //2. ViewBags is a Dynamic Type Property (introduced in ASP.NET Framework 4.0
+            // => It helps us to transfer the data from controller
+
+            ViewBag.Message="Hello ViewBag";
+
             var departments = _departmentService.GetDepartments();
             return View(departments);
         }
@@ -73,22 +92,33 @@ namespace LinkDev.Ikea.PL.Controllers
 
 
         [HttpPost]
-        public IActionResult Create(CreatedDepartmentDto  department)
+        [ValidateAntiForgeryToken]
+        public IActionResult Create(DepartmentViewModel  departmentVM)
         {
             if (!ModelState.IsValid)
-                return View(department);
+                return View(departmentVM);
             var message = string.Empty;
             try
             {
-                var result = _departmentService.createdDepartment(department);
-                if (result > 0)
-                    return RedirectToAction("Index");
-                else
+                var createdDepartment = new CreatedDepartmentDto()
                 {
-                    message= "Department is not Created";
+                    Code= departmentVM.Code,
+                    Name= departmentVM.Name,
+                    Description=departmentVM.Description,
+                    CreationDate=departmentVM.CreationDate,
+                };
+
+                var created = _departmentService.createdDepartment(createdDepartment);
+
+
+                //3. TempData is a Property of type Dictionary Object (introduced in .NET Framework 3.5)
+                //        :Used for Transfering the Data Between 2 Consuctive Request 
+                if (created >0)
+                    TempData["Message"] = "Department is Created";
+               
                     ModelState.AddModelError(string.Empty, message);
-                    return View(department);
-                }
+                    return View(departmentVM);
+               
             }
             catch (Exception ex)
             {
@@ -97,11 +127,9 @@ namespace LinkDev.Ikea.PL.Controllers
                 //2. Set Message
                 message=_environment.IsDevelopment() ? ex.Message : "an error has occured during Creation the department :(";
 
-
-
+                TempData["Message"] =message;
+                return RedirectToAction(nameof(Index));
             }
-            ModelState.AddModelError(string.Empty, message);
-            return View(department);
         }
 
         #endregion
@@ -124,7 +152,7 @@ namespace LinkDev.Ikea.PL.Controllers
             if (department is null)
                 return NotFound();//404
 
-            return View(new DepartmentEditViewModel()
+            return View(new DepartmentViewModel()
             {
                 Code = department.Code,
                 Name = department.Name,
@@ -137,7 +165,8 @@ namespace LinkDev.Ikea.PL.Controllers
         }
 
         [HttpPost] //Post
-        public IActionResult Edit([FromRoute] int id, DepartmentEditViewModel departmentVM)
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit([FromRoute] int id, DepartmentViewModel departmentVM)
         {
             if (!ModelState.IsValid)//Sever-Side Validation
                 return View(departmentVM);
@@ -181,6 +210,7 @@ namespace LinkDev.Ikea.PL.Controllers
 
         #region Delete
         [HttpPost] //Post
+        [ValidateAntiForgeryToken]
         public IActionResult Delete(int id)
         {
             var message = string.Empty;

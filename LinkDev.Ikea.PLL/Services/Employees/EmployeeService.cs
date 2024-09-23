@@ -1,6 +1,7 @@
 ﻿using LinkDev.Ikea.BLL.Models.Employees;
 using LinkDev.Ikea.DAL.Entities.Employees;
 using LinkDev.Ikea.DAL.Persistance.Repositories.Employees;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,7 +23,7 @@ namespace LinkDev.Ikea.BLL.Services.Employees
 
         public IEnumerable<EmployeeDto> GetEmployees()
         {
-            var query = _employeeRepository.GetAllAsIQueryable().Where(E => !E.IsDeleted).Select(employee => new EmployeeDto()
+            var query = _employeeRepository.GetIQueryable().Where(E => !E.IsDeleted).Include(E => E.Department).Select(employee => new EmployeeDto()
             {
                 Id=employee.Id,
                 Name=employee.Name,
@@ -32,15 +33,19 @@ namespace LinkDev.Ikea.BLL.Services.Employees
                 Salary=employee.Salary,
                 Gender =employee.Gender.ToString(),
                 EmployeeType=employee.EmployeeType.ToString(),
+                Department=employee.Department.Name
 
 
             }).ToList();
 
-            
+            var employee =query.ToList();
+            var first = query.FirstOrDefault();
+            var count = query.Count();
 
-            return query;
+            return employee;
 
         }
+        
 
 
 
@@ -62,6 +67,7 @@ namespace LinkDev.Ikea.BLL.Services.Employees
                     Salary=employee.Salary,
                     Gender = employee.Gender,
                     EmployeeType= employee.EmployeeType,
+                    DepartmentId= employee.DepartmentId,
 
                 };
             return null;
@@ -83,6 +89,8 @@ namespace LinkDev.Ikea.BLL.Services.Employees
                 HiringDate=employeeDto.HiringDate,
                 Gender =employeeDto.Gender,
                 EmployeeType=employeeDto.EmployeeType,
+                DepartmentId=employeeDto.DepartmentId,
+
                 CreatedBy=1,
                 LastModifiedBy=1,
                 CreatedOn= DateTime.UtcNow,
@@ -107,6 +115,8 @@ namespace LinkDev.Ikea.BLL.Services.Employees
                 HiringDate=employeeDto.HiringDate,
                 Gender =employeeDto.Gender,
                 EmployeeType=employeeDto.EmployeeType,
+                DepartmentId=employeeDto.DepartmentId,
+
                 CreatedBy=1,
                 LastModifiedBy=1,
                 CreatedOn= DateTime.UtcNow,

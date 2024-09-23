@@ -1,6 +1,12 @@
 ﻿@model CreatedEmployeeDto
+
+@inject IDepartmentService departmentService
+
+
 @{
     ViewData["Title"] = "Create";
+    var Departments = new SelectList(departmentService.GetDepartments(),nameof(DepartmentDto.Id),nameof(DepartmentDto.Name));
+
 }
 
 <div class="row justify-content-center align-items-center flex-column">
@@ -49,6 +55,22 @@
             }
 
         </div>
+
+
+
+        <div class="form-group col-6 mb-3">
+            <label asp-for="DepartmentId" class="control-label"></label>
+            <select asp-for="DepartmentId" asp-items="@Departments" class="form-control">
+                <option value="@null">Choose....</option>
+               
+
+            </select>
+        </div>
+
+
+
+
+
         
        <div class="form-group col-6">
            <label asp-for="EmployeeType" class="control-label"></label>
@@ -80,3 +102,10 @@
 
 
 </div>
+
+
+@section ValidationScripts {
+
+
+    <partial name="_ValidationScriptsPartial" />
+}

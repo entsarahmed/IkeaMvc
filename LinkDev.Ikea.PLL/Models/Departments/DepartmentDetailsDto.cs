@@ -19,6 +19,8 @@ namespace LinkDev.Ikea.BLL.Models.Departments
         public string? Description { get; set; }
         [Display(Name = "Creation Date")]
         public DateOnly CreationDate { get; set; }
+        
+        public int? DepartmentId { get; set; }
 
     }
 }
