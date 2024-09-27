@@ -32,7 +32,7 @@ namespace LinkDev.Ikea.DAL.Persistance.Repositories._Generic
         {
             return _dbContext.Set<T>().Find(id);
 
-           // return _dbContext.Find<T>(id);
+            //return _dbContext.Find<T>(id);
 
 
         //var T = _dbContext.Ts.Local.FirstOrDefault(D => D.Id == id);   

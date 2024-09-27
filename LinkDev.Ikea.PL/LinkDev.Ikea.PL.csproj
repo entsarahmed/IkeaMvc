@@ -18,8 +18,4 @@
     <ProjectReference Include="..\LinkDev.Ikea.PLL\LinkDev.Ikea.BLL.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="ViewModels\Employees\" />
-  </ItemGroup>
-
 </Project>

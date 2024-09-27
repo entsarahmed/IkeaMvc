@@ -1,10 +1,5 @@
 ﻿using LinkDev.Ikea.DAL.Common.Enums;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LinkDev.Ikea.BLL.Models.Employees
 {
@@ -35,7 +30,7 @@ namespace LinkDev.Ikea.BLL.Models.Employees
         public string? Email { get; set; }
 
         public Gender Gender { get; set; }
-
+        
         public EmployeeType EmployeeType { get; set; } 
 
         [Display(Name = "Phone Number")]
@@ -53,5 +48,8 @@ namespace LinkDev.Ikea.BLL.Models.Employees
         #endregion
 
         public int? DepartmentId { get; set; }
+
+
+
     }
 }

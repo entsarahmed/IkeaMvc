@@ -21,6 +21,8 @@ namespace LinkDev.Ikea.PL.Controllers
 
 
 
+
+
         public DepartmentController(IDepartmentService departmentService, IWebHostEnvironment environment, ILogger<DepartmentController> logger)
         {
             _departmentService=departmentService;
@@ -44,16 +46,16 @@ namespace LinkDev.Ikea.PL.Controllers
         [HttpGet] //Get: /Department/Index
         public IActionResult Index()
         {
-            //1. ViewData ia a Dictionary Type Property (introduced in ASP.NET FrameWork 3.1
+            //1. ViewData ia a Dictionary Type Property (introduced in ASP.NET FrameWork 3.5
             /////   => It helps us to transfer the data from Controller[Action] to View 
             ///
-            ViewData["Message"] = "Hello ViewData";
+            //ViewData["Message"] = "Hello ViewData";
 
 
             //2. ViewBags is a Dynamic Type Property (introduced in ASP.NET Framework 4.0
             // => It helps us to transfer the data from controller
 
-            ViewBag.Message="Hello ViewBag";
+           // ViewBag.Message="Hello ViewBag";
 
             var departments = _departmentService.GetDepartments();
             return View(departments);
@@ -115,10 +117,14 @@ namespace LinkDev.Ikea.PL.Controllers
                 //        :Used for Transfering the Data Between 2 Consuctive Request 
                 if (created >0)
                     TempData["Message"] = "Department is Created";
-               
-                    ModelState.AddModelError(string.Empty, message);
-                    return View(departmentVM);
-               
+               else
+                
+                    TempData["Message"] = "Department is not Created";
+
+                //ModelState.AddModelError(string.Empty, message);
+               return RedirectToAction(nameof(Index));
+
+
             }
             catch (Exception ex)
             {
@@ -127,8 +133,11 @@ namespace LinkDev.Ikea.PL.Controllers
                 //2. Set Message
                 message=_environment.IsDevelopment() ? ex.Message : "an error has occured during Creation the department :(";
 
-                TempData["Message"] =message;
-                return RedirectToAction(nameof(Index));
+                //TempData["Message"] =message;
+                //return RedirectToAction(nameof(Index));
+                ModelState.AddModelError(string.Empty, message);
+                return View(departmentVM);
+
             }
         }
 
@@ -170,6 +179,7 @@ namespace LinkDev.Ikea.PL.Controllers
         {
             if (!ModelState.IsValid)//Sever-Side Validation
                 return View(departmentVM);
+                
 
             var Message = string.Empty;
 
@@ -184,10 +194,16 @@ namespace LinkDev.Ikea.PL.Controllers
                     CreationDate=departmentVM.CreationDate,
                 };
 
+
                 var updated = _departmentService.UpdatedDepartment(departmentToUpdate) > 0;
+
                 if (updated)
-                    return RedirectToAction("Index");
-                Message= "an error has occured during Updating the department :(";
+                    TempData["Message"] = "Department is Updated";
+                else
+
+                    TempData["Message"] = "Department is not Updated";
+                return RedirectToAction(nameof(Index));
+
             }
             catch (Exception ex)
             {
@@ -209,35 +225,88 @@ namespace LinkDev.Ikea.PL.Controllers
 
 
         #region Delete
-        [HttpPost] //Post
+
+        [HttpGet]
+        public IActionResult Delete(int? id)
+        {
+            if (id is null)
+                return BadRequest();
+
+            var department = _departmentService.GetDepartmentById(id.Value);
+
+            if (department is null)
+                return NotFound();
+
+            return View(department);
+
+        }
+
+
+
+
+        //[HttpPost] //Post
+        //[ValidateAntiForgeryToken]
+        //public IActionResult Delete(int id)
+        //{
+        //    var message = string.Empty;
+
+        //    try
+        //    {
+
+        //        var deleted = _departmentService.DeleteDepartment(id);
+        //        if (deleted)
+        //            return RedirectToAction("Index");
+        //        message= "an error has occured during deleting the department :(";
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+
+        //        //1. Log Exception 
+        //        _logger.LogError(ex, ex.Message);
+
+
+        //        //2. Set Message
+        //        message=_environment.IsDevelopment() ? ex.Message : "an error has occured during deleting the department :(";
+        //    }
+        //    //ModelState.AddModelError(string.Empty, message);
+        //    return RedirectToAction(nameof(Index));
+
+        //} 
+
+        [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Delete(int id)
         {
-            var message = string.Empty;
+            if (id <= 0)
+            {
+                TempData["ErrorMessage"] = "Invalid department ID.";
+                return RedirectToAction(nameof(Index));
+            }
 
             try
             {
-
                 var deleted = _departmentService.DeleteDepartment(id);
                 if (deleted)
-                    return RedirectToAction("Index");
-                message= "an error has occured during deleting the department :(";
+                {
+                    TempData["SuccessMessage"] = "Department deleted successfully.";
+                    return RedirectToAction(nameof(Index));
+                }
 
+                TempData["ErrorMessage"] = "An error occurred while deleting the department.";
             }
             catch (Exception ex)
             {
-
-                //1. Log Exception 
+                // Log the exception
                 _logger.LogError(ex, ex.Message);
 
-
-                //2. Set Message
-                message=_environment.IsDevelopment() ? ex.Message : "an error has occured during deleting the department :(";
+                // Set error message
+                TempData["ErrorMessage"] = _environment.IsDevelopment() ? ex.Message : "An unexpected error occurred.";
             }
-            //ModelState.AddModelError(string.Empty, message);
-            return RedirectToAction(nameof(Index));
 
-        } 
+            return RedirectToAction(nameof(Index));
+        }
+
         #endregion
 
 

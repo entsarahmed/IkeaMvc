@@ -1,5 +1,4 @@
 ﻿using LinkDev.Ikea.DAL.Entities.Employees;
-using LinkDev.Ikea.DAL.Entities.Employees;
 using LinkDev.Ikea.DAL.Persistance.Data;
 using LinkDev.Ikea.DAL.Persistance.Repositories._Generic;
 using Microsoft.EntityFrameworkCore;

@@ -1,91 +1,234 @@
-﻿@model UpdatedEmployeeDto
+﻿
+
+
+@*
+@model EmployeeViewModel
 @{
     ViewData["Title"] = "Edit";
+    ViewBag.Action = "Edit";
 }
 
-<div class="row justify-content-center align-items-center flex-column">
-    <h1 class="col-6 my-3">Edit Employee</h1>
-    <form asp-action="Edit" class="col-6">
-        <div asp-validation-summary="ModelOnly"></div>
-        <div class="form-group mb-3 col-6">
-            <label class=" form-label " asp-for="Name"></label>
-            <input asp-for="Name" class="form-control" />
-            <span asp-validation-for="Name" class="Text-danger"></span>
-        </div>
-        <div class="form-group mb-3 col-6">
-            <label class=" form-label " asp-for="Email"></label>
-            <input asp-for="Email" class="form-control" />
-            <span asp-validation-for="Email" class="Text-danger"></span>
-        </div>
-        <div class="form-group mb-3 col-6">
-            <label class=" form-label " asp-for="Address"></label>
-            <input asp-for="Address" class="form-control" />
-            <span asp-validation-for="Address" class="Text-danger"></span>
-        </div>
+<!-- Custom Styles -->
+<style>
+    /* General Body Styling */
+    body {
+        background-color: #f5f7fa; /* Light gray background for the page */
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
 
-        <div class="form-group mb-3 col-6">
-            <label class=" form-label" asp-for="Age"></label>
-            <input asp-for="Age" class="form-control" />
-            <span asp-validation-for="Age" class="Text-danger"></span>
-        </div>
-        <div class="form-group mb-3 col-6">
-            <label class=" form-label" asp-for="Salary"></label>
-            <input asp-for="Salary" class="form-control" />
-            <span asp-validation-for="Salary" class="Text-danger"></span>
-        </div>
-        <div class="form-group mb-3 col-6">
-            <label class=" form-label" asp-for="PhoneNumber"></label>
-            <input asp-for="PhoneNumber" class="form-control" />
-            <span asp-validation-for="PhoneNumber" class="Text-danger"></span>
-        </div>
-        <div class="form-group col-6">
-            <label class="control-label" asp-for="Gender"></label></<br />
-            @foreach (Gender genderOpition in Enum.GetValues(typeof(Gender)))
-            {
-                <label class="radio-inline">
-                    <input type="radio" asp-for="Gender" value="@genderOpition" />
-                    @genderOpition
-                </label>
-            }
+    /* Form Container */
+    .form-container {
+        background-color: #ffffff; /* White background for the form */
+        padding: 30px;
+        border-radius: 0.5rem;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    }
 
+    /* Form Header */
+    h1 {
+        color: #007bff; /* Blue color for the title */
+        font-weight: 700;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    /* Form Labels and Inputs */
+    .form-label {
+        font-weight: bold;
+        color: #333333;
+    }
+
+    .form-control {
+        border-radius: 0.3rem;
+        border: 1px solid #ced4da; /* Soft border */
+    }
+
+        .form-control:focus {
+            border-color: #007bff; /* Blue border when focused */
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.25);
+        }
+
+    /* Validation Messages */
+    .validation-message {
+        color: #dc3545; /* Red color for error messages */
+        font-size: 0.875rem;
+    }
+
+    /* Radio Buttons */
+    .radio-inline {
+        display: inline-block;
+        margin-right: 15px;
+    }
+
+    /* Buttons */
+    .btn-success {
+        background-color: #28a745; /* Green for the save button */
+        border-color: #28a745;
+    }
+
+        .btn-success:hover {
+            background-color: #218838;
+            border-color: #1e7e34;
+        }
+
+    .btn-light {
+        background-color: #f8f9fa;
+        border-color: #ced4da;
+        color: #6c757d;
+    }
+
+        .btn-light:hover {
+            background-color: #e2e6ea;
+            border-color: #dae0e5;
+        }
+
+    /* Container Spacing */
+    .container {
+        margin-top: 50px; /* Space from the top */
+    }
+
+    .form-check-input {
+        margin-left: 0;
+    }
+
+    .form-check-label {
+        margin-left: 5px;
+    }
+</style>
+
+
+
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-md-10">
+            <div class="form-container">
+                <h1>Edit Employee</h1>
+
+                <partial name="Partial/CreatedEditEmployeePartial" />
+             @*   <form asp-action="Edit">
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+                    <div class="form-group mb-3">
+                        <label class="form-label" asp-for="Name"></label>
+                        <input asp-for="Name" class="form-control" />
+                        <span asp-validation-for="Name" class="validation-message"></span>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label class="form-label" asp-for="Email"></label>
+                        <input asp-for="Email" class="form-control" />
+                        <span asp-validation-for="Email" class="validation-message"></span>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label class="form-label" asp-for="Address"></label>
+                        <input asp-for="Address" class="form-control" />
+                        <span asp-validation-for="Address" class="validation-message"></span>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label class="form-label" asp-for="Age"></label>
+                        <input asp-for="Age" class="form-control" />
+                        <span asp-validation-for="Age" class="validation-message"></span>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label class="form-label" asp-for="Salary"></label>
+                        <input asp-for="Salary" class="form-control" />
+                        <span asp-validation-for="Salary" class="validation-message"></span>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label class="form-label" asp-for="PhoneNumber"></label>
+                        <input asp-for="PhoneNumber" class="form-control" />
+                        <span asp-validation-for="PhoneNumber" class="validation-message"></span>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label class="form-label" asp-for="Gender"></label><br />
+                        @foreach (Gender genderOption in Enum.GetValues(typeof(Gender)))
+                        {
+                            <label class="radio-inline">
+                                <input type="radio" asp-for="Gender" value="@genderOption" class="form-check-input" />
+                                @genderOption
+                            </label>
+                        }
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label asp-for="EmployeeType" class="form-label"></label>
+                        <select asp-for="EmployeeType" asp-items="Html.GetEnumSelectList<EmployeeType>()" class="form-control">
+                            <option value="">Choose...</option>
+                        </select>
+                    </div>
+
+                    <div class="form-check mb-3">
+                        <input asp-for="IsActive" class="form-check-input" />
+                        <label class="form-check-label" asp-for="IsActive"></label>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label class="form-label" asp-for="HiringDate"></label>
+                        <input asp-for="HiringDate" class="form-control" />
+                        <span asp-validation-for="HiringDate" class="validation-message"></span>
+                    </div>
+
+                    <div class="mt-4 d-flex justify-content-between">
+                        <input type="submit" value="Save" class="btn btn-success px-4" />
+                        <a asp-action="Index" class="btn btn-light px-4">Cancel</a>
+                    </div>
+                </form>
+            </div>
         </div>
-
-        <div class="form-group col-6">
-            <label asp-for="EmployeeType" class="control-label"></label>
-            <select asp-for="EmployeeType" asp-items="Html.GetEnumSelectList<EmployeeType>()" class="form-control">
-                <option value="">Choose....</option>
-
-                @* @foreach(var value in Enum.GetValues(typeof(EmployeeType)))
-                {
-                <option value="@value"></option>
-                }  *@
-            </select>
-        </div>
-
-        <div class="form-check mb-3 col-12">
-            <input asp-for="IsActive" class="form-control" />
-            <label class=" form-check-label" asp-for="IsActive"></label>
-        </div>
-        <div class="form-group mb-3 col-12">
-            <label class=" form-label" asp-for="HiringDate"></label>
-            <input asp-for="HiringDate" class="form-control" />
-            <span asp-validation-for="HiringDate" class="Text-danger"></span>
-        </div>
-
-        <div class="mt-4">
-            <input type="submit" value="Save" class="btn btn-success" />
-            <a asp-action="Index" class="btn btn-light">Cancel</a>
-        </div>
-    </form>
-
-
+    </div>
 </div>
 
+@section ValidationScripts {
+    <partial name="_ValidationScriptsPartial" />
+}*@
+
+
+
+
+
+
+@model EmployeeViewModel
+@{
+    ViewData["Title"] = "Edit";
+    ViewBag.Action = "Edit";
+}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">Edit Employee</div>
+                <div class="card-body">
+                    <partial name="Partial/CreatedEditEmployeePartial" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 @section ValidationScripts {
-    @* <script src="~/lib/jquery-validation/dist/additional-methods.min.js"></script>
-    <script src="~/lib/jquery-validation/dist/additional-methods.js"></script>
- *@
     <partial name="_ValidationScriptsPartial" />
-
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

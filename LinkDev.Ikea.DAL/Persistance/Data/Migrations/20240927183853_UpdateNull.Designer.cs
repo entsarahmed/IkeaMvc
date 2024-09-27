@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LinkDev.Ikea.DAL.Persistance.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240921133615_ChangeEmployeeModuleMigration")]
-    partial class ChangeEmployeeModuleMigration
+    [Migration("20240927183853_UpdateNull")]
+    partial class UpdateNull
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -21,6 +21,9 @@ namespace LinkDev.Ikea.DAL.Persistance.Data.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "8.0.8")
+                .HasAnnotation("Proxies:ChangeTracking", false)
+                .HasAnnotation("Proxies:CheckEquality", false)
+                .HasAnnotation("Proxies:LazyLoading", true)
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -41,11 +44,11 @@ namespace LinkDev.Ikea.DAL.Persistance.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedOn")
-                        .ValueGeneratedOnAddOrUpdate()
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasComputedColumnSql("GETUTCDATE()");
+                        .HasDefaultValueSql("GETUTCDATE()");
 
-                    b.Property<DateOnly>("CreationDate")
+                    b.Property<DateOnly?>("CreationDate")
                         .HasColumnType("date");
 
                     b.Property<string>("Description")
@@ -58,9 +61,7 @@ namespace LinkDev.Ikea.DAL.Persistance.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<DateTime>("LastModifiedOn")
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("datetime2")
-                        .HasComputedColumnSql("GETDATE()");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -93,8 +94,10 @@ namespace LinkDev.Ikea.DAL.Persistance.Data.Migrations
                         .HasColumnType("datetime2")
                         .HasComputedColumnSql("GETUTCDATE()");
 
+                    b.Property<int?>("DepartmentId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Email")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("EmployeeType")
@@ -134,7 +137,24 @@ namespace LinkDev.Ikea.DAL.Persistance.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("DepartmentId");
+
                     b.ToTable("Employees");
+                });
+
+            modelBuilder.Entity("LinkDev.Ikea.DAL.Entities.Employees.Employee", b =>
+                {
+                    b.HasOne("LinkDev.Ikea.DAL.Entities.Departments.Department", "Departments")
+                        .WithMany("Employees")
+                        .HasForeignKey("DepartmentId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.Navigation("Departments");
+                });
+
+            modelBuilder.Entity("LinkDev.Ikea.DAL.Entities.Departments.Department", b =>
+                {
+                    b.Navigation("Employees");
                 });
 #pragma warning restore 612, 618
         }

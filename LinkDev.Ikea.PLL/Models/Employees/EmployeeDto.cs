@@ -37,8 +37,11 @@ namespace LinkDev.Ikea.BLL.Models.Employees
 
         public string Department { get; set; } = null!;
 
+        public int? DepartmentId { get; set; } // Ensure this property exists
 
-        
+
+
+
 
     }
 }

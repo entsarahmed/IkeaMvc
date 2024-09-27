@@ -7,10 +7,108 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/LinkDev.Ikea.PL.styles.css" asp-append-version="true" />
+
+
+    <style>
+        /* Custom color scheme */
+        body {
+            background: linear-gradient(135deg, #e3f2fd, #e8f5e9); /* Light blue and green gradient */
+            color: #333;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Navbar styling */
+        .navbar {
+            background: #00796b; /* Dark teal background */
+            border-bottom: 2px solid #004d40; /* Dark green border */
+            padding: 15px 0;
+        }
+
+        .navbar-brand {
+            color: #fff !important;
+            font-weight: bold;
+            font-size: 1.5em;
+        }
+
+        .navbar-nav .nav-link {
+            color: #fff !important;
+            margin: 0 10px;
+            transition: color 0.3s ease;
+        }
+
+            .navbar-nav .nav-link:hover {
+                color: #ffeb3b !important; /* Highlight with yellow */
+            }
+
+        .navbar-toggler {
+            background-color: #004d40; /* Toggler button color */
+        }
+
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml;charset=UTF8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba%28255, 255, 255, 0.7%29' stroke-width='2' linecap='round' linejoin='round' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+        }
+
+        /* Main container styling */
+        .container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+
+        /* Footer styling */
+        footer {
+            background: #004d40;
+            color: #fff;
+            padding: 10px 0;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+            footer a {
+                color: #ffeb3b;
+                text-decoration: none;
+            }
+
+                footer a:hover {
+                    color: #fff;
+                }
+
+        /* Buttons */
+        .btn-primary {
+            background-color: #00796b;
+            border: none;
+            border-radius: 50px;
+            padding: 5px 10px;
+            color: #fff;
+            text-transform: uppercase;
+            font-weight: bold;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+            .btn-primary:hover {
+                background-color: #004d40;
+                transform: translateY(-2px);
+            }
+
+        /* Custom icon styling */
+        .fa {
+            margin-right: 5px;
+            color: #ffeb3b;
+        }
+
+            .fa:hover {
+                color: #fff;
+            }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" crossorigin="anonymous">
+
+
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark">
             <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">IKEA</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -50,7 +148,10 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+
     @await RenderSectionAsync("ValidationScripts", required: false)
+
+
 
 </body>
 </html>

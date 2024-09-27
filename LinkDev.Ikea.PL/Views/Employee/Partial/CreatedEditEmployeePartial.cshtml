@@ -1,0 +1,313 @@
+﻿@*@model EmployeeViewModel
+
+@inject IDepartmentService departmentService
+@{
+    // Retrieve the department list once in the partial view.
+    var Departments = new SelectList(departmentService.GetDepartments(), nameof(DepartmentDto.Id), nameof(DepartmentDto.Name));
+}
+
+<form asp-action="@ViewData["Title"]">
+    <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+    <!-- Name -->
+    <div class="mb-3">
+        <label asp-for="Name" class="form-label text-primary"></label>
+        <input asp-for="Name" class="form-control border-primary" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+
+    <!-- Email -->
+    <div class="mb-3">
+        <label asp-for="Email" class="form-label text-info"></label>
+        <input asp-for="Email" class="form-control border-info" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+
+    <!-- Address -->
+    <div class="mb-3">
+        <label asp-for="Address" class="form-label text-success"></label>
+        <input asp-for="Address" class="form-control border-success" />
+        <span asp-validation-for="Address" class="text-danger"></span>
+    </div>
+
+    <!-- Age -->
+    <div class="mb-3">
+        <label asp-for="Age" class="form-label text-warning"></label>
+        <input asp-for="Age" class="form-control border-warning" />
+        <span asp-validation-for="Age" class="text-danger"></span>
+    </div>
+
+    <!-- Salary -->
+    <div class="mb-3">
+        <label asp-for="Salary" class="form-label text-danger"></label>
+        <input asp-for="Salary" class="form-control border-danger" />
+        <span asp-validation-for="Salary" class="text-danger"></span>
+    </div>
+
+    <!-- Phone Number -->
+    <div class="mb-3">
+        <label asp-for="PhoneNumber" class="form-label text-secondary"></label>
+        <input asp-for="PhoneNumber" class="form-control border-secondary" />
+        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+    </div>
+
+    <!-- Gender -->
+    <div class="mb-3">
+        <label asp-for="Gender" class="form-label d-block text-dark">Gender</label>
+        @foreach (Gender genderOption in Enum.GetValues(typeof(Gender)))
+        {
+            <div class="form-check form-check-inline">
+                <input type="radio" asp-for="Gender" value="@genderOption" class="form-check-input" id="gender_@genderOption" />
+                <label class="form-check-label" for="gender_@genderOption">@genderOption</label>
+            </div>
+        }
+    </div>
+
+    <!-- Department -->
+    <div class="mb-3">
+        <label asp-for="DepartmentId" class="form-label text-muted"></label>
+        <select asp-for="DepartmentId" asp-items="@Departments" class="form-select border-muted">
+            <option value="">Choose....</option>
+        </select>
+        <span asp-validation-for="DepartmentId" class="text-danger"></span>
+    </div>
+
+    <!-- Employee Type -->
+    <div class="mb-3">
+        <label asp-for="EmployeeType" class="form-label text-info"></label>
+        <select asp-for="EmployeeType" asp-items="Html.GetEnumSelectList<EmployeeType>()" class="form-select border-info">
+            <option value="">Choose....</option>
+        </select>
+        <span asp-validation-for="EmployeeType" class="text-danger"></span>
+    </div>
+
+    <!-- Is Active -->
+    <div class="form-check mb-3">
+        <input asp-for="IsActive" class="form-check-input border-primary" />
+        <label class="form-check-label text-primary" asp-for="IsActive"></label>
+    </div>
+
+    <!-- Hiring Date -->
+    <div class="mb-3">
+        <label asp-for="HiringDate" class="form-label text-dark"></label>
+        <input asp-for="HiringDate" class="form-control border-dark" />
+        <span asp-validation-for="HiringDate" class="text-danger"></span>
+    </div>
+
+    <div class="d-flex justify-content-between mt-4">
+        <input type="submit" value="Create" class="btn btn-primary" />
+        <a asp-action="Index" class="btn btn-secondary">Back To List</a>
+    </div>
+</form>
+*@
+
+    @model EmployeeViewModel
+@inject IDepartmentService departmentService
+
+ @{ 
+    // var Departments = new SelectList(ViewData["Departments"] as IEnumerable<DepartmentDto>, nameof(DepartmentDto.Id), nameof(DepartmentDto.Name));
+
+    var Departments = new SelectList(departmentService.GetDepartments(), nameof(DepartmentDto.Id), nameof(DepartmentDto.Name));
+
+}
+<!-- Custom styles to apply another fantastic design -->
+<style>
+    .form-container {
+        background: #f0f8ff; /* Light blue background */
+        padding: 30px;
+        border-radius: 15px;
+        border: 2px solid #00acc1;
+        box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-label {
+        color: #00695c; /* Dark teal color */
+        font-weight: 600;
+    }
+
+    .form-control, .form-select {
+        border: 1px solid #4dd0e1; /* Light teal border */
+        border-radius: 10px;
+        padding: 10px;
+        background-color: #e0f7fa; /* Very light teal background */
+        box-shadow: inset 0px 2px 4px rgba(0, 0, 0, 0.1);
+        transition: border-color 0.3s, background-color 0.3s;
+    }
+
+        .form-control:focus, .form-select:focus {
+            border-color: #26c6da; /* Highlight border on focus */
+            outline: none;
+            background-color: #b2ebf2; /* Slightly darker background on focus */
+        }
+
+    .btn-success {
+        background-color: #00796b; /* Teal button */
+        border: none;
+        border-radius: 50px;
+        padding: 10px 20px;
+        color: #fff;
+        box-shadow: 0px 5px 15px rgba(0, 121, 107, 0.4);
+        transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+    }
+
+        .btn-success:hover {
+            background-color: #004d40; /* Darker teal on hover */
+            transform: translateY(-3px); /* Lift effect */
+            box-shadow: 0px 8px 20px rgba(0, 77, 64, 0.6);
+        }
+
+    .btn-light {
+        background-color: #80deea; /* Light teal button */
+        color: #004d40; /* Dark teal text */
+        border: none;
+        border-radius: 50px;
+        padding: 10px 20px;
+        box-shadow: 0px 5px 15px rgba(128, 222, 234, 0.4);
+        transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+    }
+
+        .btn-light:hover {
+            background-color: #26c6da; /* Slightly darker teal on hover */
+            transform: translateY(-3px); /* Lift effect */
+            box-shadow: 0px 8px 20px rgba(38, 198, 218, 0.6);
+        }
+
+    .validation-message {
+        color: #d32f2f; /* Red for validation */
+        font-size: 0.9em;
+    }
+
+    .form-check-input:checked {
+        background-color: #00796b; /* Teal for checkboxes */
+        border-color: #004d40;
+    }
+
+    .form-check-label {
+        color: #00695c;
+    }
+
+    /* Styling for the radio button and checkbox container */
+    .form-check {
+        padding: 5px;
+        margin: 3px;
+        border-radius: 5px;
+        background: #e0f2f1;
+    }
+
+    /* Styling the dropdown */
+    select.form-select {
+        background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNCIgaGVpZ2h0PSIxNCIgdmlld0JveD0iMCAwIDE0IDE0Ij48cGF0aCBkPSJNMSA0bDEyIDBMMTQgMTQuMSAxLjEuMSIgZmlsbD0iIzAwNzc3YiIvPjwvc3ZnPg=='); /* Adding a custom dropdown arrow */
+        background-repeat: no-repeat;
+        background-position: right 10px center;
+        background-size: 14px;
+    }
+
+    /* Styling form header text */
+    .form-header {
+        font-size: 1.5em;
+        color: #00796b;
+        margin-bottom: 15px;
+        text-align: center;
+        text-transform: uppercase;
+        font-weight: 700;
+        border-bottom: 2px solid #4dd0e1;
+        padding-bottom: 10px;
+    }
+</style>
+
+
+<form asp-action="@ViewBag.Action" method="post" class="form-container">
+    <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+    <!-- Name -->
+    <div class="form-group mb-3">
+        <label class="form-label" asp-for="Name"></label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="validation-message"></span>
+    </div>
+
+    <!-- Email -->
+    <div class="form-group mb-3">
+        <label class="form-label" asp-for="Email"></label>
+        <input asp-for="Email" class="form-control" />
+        <span asp-validation-for="Email" class="validation-message"></span>
+    </div>
+
+    <!-- Address -->
+    <div class="form-group mb-3">
+        <label class="form-label" asp-for="Address"></label>
+        <input asp-for="Address" class="form-control" />
+        <span asp-validation-for="Address" class="validation-message"></span>
+    </div>
+
+    <!-- Age -->
+    <div class="form-group mb-3">
+        <label class="form-label" asp-for="Age"></label>
+        <input asp-for="Age" class="form-control" />
+        <span asp-validation-for="Age" class="validation-message"></span>
+    </div>
+
+    <!-- Salary -->
+    <div class="form-group mb-3">
+        <label class="form-label" asp-for="Salary"></label>
+        <input asp-for="Salary" class="form-control" />
+        <span asp-validation-for="Salary" class="validation-message"></span>
+    </div>
+
+    <!-- Phone Number -->
+    <div class="form-group mb-3">
+        <label class="form-label" asp-for="PhoneNumber"></label>
+        <input asp-for="PhoneNumber" class="form-control" />
+        <span asp-validation-for="PhoneNumber" class="validation-message"></span>
+    </div>
+
+    <!-- Gender -->
+    <div class="form-group mb-3">
+        <label class="form-label d-block">Gender</label>
+        @foreach (Gender genderOption in Enum.GetValues(typeof(Gender)))
+        {
+            <div class="form-check form-check-inline">
+                <input type="radio" asp-for="Gender" value="@genderOption" class="form-check-input" />
+                <label class="form-check-label">@genderOption</label>
+            </div>
+        }
+        <span asp-validation-for="Gender" class="validation-message"></span>
+    </div>
+
+    <!-- Department -->
+    <div class="form-group mb-3">
+        <label asp-for="DepartmentId" class="form-label"></label>
+        <select asp-for="DepartmentId" asp-items="@Departments" class="form-select">
+            <option value="">Choose...</option>
+        </select>
+        <span asp-validation-for="DepartmentId" class="validation-message"></span>
+    </div>
+
+    <!-- Employee Type -->
+    <div class="form-group mb-3">
+        <label asp-for="EmployeeType" class="form-label"></label>
+        <select asp-for="EmployeeType" asp-items="Html.GetEnumSelectList<EmployeeType>()" class="form-control">
+            <option value="">Choose...</option>
+        </select>
+        <span asp-validation-for="EmployeeType" class="validation-message"></span>
+    </div>
+
+    <!-- Is Active -->
+    <div class="form-check mb-3">
+        <input asp-for="IsActive" class="form-check-input" />
+        <label class="form-check-label" asp-for="IsActive"></label>
+    </div>
+
+    <!-- Hiring Date -->
+    <div class="form-group mb-3">
+        <label class="form-label" asp-for="HiringDate"></label>
+        <input type="date" asp-for="HiringDate" class="form-control" />
+        <span asp-validation-for="HiringDate" class="validation-message"></span>
+    </div>
+
+    <!-- Buttons -->
+    <div class="mt-4 d-flex justify-content-between">
+        <input type="submit" value="@ViewBag.Action" class="btn btn-success px-4" />
+        <a asp-action="Index" class="btn btn-light px-4">Cancel</a>
+    </div>
+</form>

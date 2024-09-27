@@ -5,6 +5,94 @@
 
 }
 
+<!-- Apply the styles to the container div -->
+<style>
+    /* Container styles */
+    .form-container {
+        background: #fff;
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 600px;
+        border: 2px solid #4caf50; /* Green border */
+    }
+
+    /* Row styling */
+    .form-wrapper {
+        min-height: 100vh; /* Full viewport height */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, #e8f5e9 0%, #a5d6a7 100%); /* Green gradient background */
+        padding: 20px;
+    }
+
+    /* Title styling */
+    .form-title {
+        color: #2e7d32; /* Dark green color */
+        font-size: 1.8em;
+        font-weight: bold;
+        margin-bottom: 20px;
+        text-align: center;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        border-bottom: 2px solid #4caf50; /* Underline */
+        padding-bottom: 10px;
+    }
+
+    /* Input and button styling */
+    .form-control, .form-select {
+        border: 1px solid #4caf50;
+        border-radius: 10px;
+        padding: 10px;
+        margin-bottom: 15px;
+        box-shadow: inset 0px 2px 4px rgba(0, 0, 0, 0.1);
+        transition: border-color 0.3s, box-shadow 0.3s;
+    }
+
+        .form-control:focus, .form-select:focus {
+            border-color: #81c784;
+            box-shadow: 0px 0px 8px #81c784;
+        }
+
+    .btn-primary {
+        background-color: #4caf50;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 30px;
+        color: white;
+        text-transform: uppercase;
+        font-weight: bold;
+        transition: background-color 0.3s, transform 0.3s;
+        box-shadow: 0px 5px 15px rgba(76, 175, 80, 0.4);
+    }
+
+        .btn-primary:hover {
+            background-color: #388e3c;
+            transform: translateY(-2px);
+            box-shadow: 0px 8px 20px rgba(56, 142, 60, 0.6);
+        }
+
+    .validation-message {
+        color: #e53935; /* Red for validation messages */
+        font-size: 0.9em;
+    }
+
+    /* Adjust partial elements */
+    .partial-container input[type="text"],
+    .partial-container input[type="email"],
+    .partial-container input[type="number"],
+    .partial-container select,
+    .partial-container textarea {
+        border: 1px solid #4caf50;
+        border-radius: 5px;
+        padding: 8px;
+        width: 100%;
+    }
+</style>
+
+
 <div class="row justify-content-center align-items-center flex-column">
 <h1 class="col-6 my-3">Create New Department</h1>
     <partial name="Partial/CreatedEditDepartmentPartial"/>

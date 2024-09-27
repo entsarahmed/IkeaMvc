@@ -23,7 +23,7 @@ namespace LinkDev.Ikea.BLL.Services.Employees
 
         public IEnumerable<EmployeeDto> GetEmployees()
         {
-            var query = _employeeRepository.GetIQueryable().Where(E => !E.IsDeleted).Include(E => E.Department).Select(employee => new EmployeeDto()
+            var query = _employeeRepository.GetIQueryable().Where(E => !E.IsDeleted).Include(E => E.Departments).Select(employee => new EmployeeDto()
             {
                 Id=employee.Id,
                 Name=employee.Name,
@@ -33,16 +33,14 @@ namespace LinkDev.Ikea.BLL.Services.Employees
                 Salary=employee.Salary,
                 Gender =employee.Gender.ToString(),
                 EmployeeType=employee.EmployeeType.ToString(),
-                Department=employee.Department.Name
+                Department = employee.Departments != null ? employee.Departments.Name : string.Empty,
+               // DepartmentId=employee.Departments.Id,
+                
 
 
             }).ToList();
 
-            var employee =query.ToList();
-            var first = query.FirstOrDefault();
-            var count = query.Count();
-
-            return employee;
+            return query;
 
         }
         
@@ -68,6 +66,7 @@ namespace LinkDev.Ikea.BLL.Services.Employees
                     Gender = employee.Gender,
                     EmployeeType= employee.EmployeeType,
                     DepartmentId= employee.DepartmentId,
+                    PhoneNumber=employee.PhoneNumber,
 
                 };
             return null;

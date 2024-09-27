@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -37,6 +38,10 @@ namespace LinkDev.Ikea.DAL.Persistance.Data.Configurations.Employees
 
             builder.Property(E => E.CreatedOn).HasComputedColumnSql("GETUTCDATE()");
 
+
+            builder.HasOne(e => e.Departments)
+                  .WithMany(d => d.Employees)
+                  .HasForeignKey(e => e.DepartmentId);
         }
     }
 }

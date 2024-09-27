@@ -16,10 +16,14 @@ namespace LinkDev.Ikea.BLL.Models.Departments
         public DateTime LastModifiedOn { get; set; }
         public string Code { get; set; } = null!;
         public string Name { get; set; } = null!;
-        public string? Description { get; set; }
+        public string Description { get; set; } = null!;
         [Display(Name = "Creation Date")]
         public DateOnly CreationDate { get; set; }
-        
+        [Display(Name = "Phone Number")]
+        [Phone]
+        //[DataType(DateType.PhoneNumber)]
+        public string? PhoneNumber { get; set; }
+
         public int? DepartmentId { get; set; }
 
     }

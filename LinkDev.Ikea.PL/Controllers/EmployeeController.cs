@@ -4,6 +4,8 @@ using LinkDev.Ikea.BLL.Services.Departments;
 using LinkDev.Ikea.BLL.Services.Employees;
 using LinkDev.Ikea.DAL.Entities.Departments;
 using LinkDev.Ikea.PL.ViewModels.Departments;
+using LinkDev.Ikea.PL.ViewModels.Employees;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.DotNet.Scaffolding.Shared.Messaging;
 
@@ -16,14 +18,17 @@ namespace LinkDev.Ikea.PL.Controllers
         private readonly IEmployeeService _employeeService;
         private readonly ILogger<EmployeeController> _logger;
         private readonly IWebHostEnvironment _environment;
+        private readonly IDepartmentService _departmentService;
 
+      
 
-
-        public EmployeeController(IEmployeeService employeeService, IWebHostEnvironment environment, ILogger<EmployeeController> logger)
+        public EmployeeController(IEmployeeService employeeService, IDepartmentService departmentService, IWebHostEnvironment environment, ILogger<EmployeeController> logger)
         {
             _employeeService=employeeService;
             _environment=environment;
             _logger=logger;
+            _departmentService=departmentService;
+
 
         }
         #endregion
@@ -72,36 +77,68 @@ namespace LinkDev.Ikea.PL.Controllers
 
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Create(CreatedEmployeeDto  employee)
+       [ValidateAntiForgeryToken]
+        public IActionResult Create(/*CreatedEmployeeDto*/  EmployeeViewModel employeeVM)
         {
+
             if (!ModelState.IsValid)
-                return View(employee);
+                return View(employeeVM);
             var message = string.Empty;
             try
             {
-                var result = _employeeService.createdEmployee(employee);
-                if (result > 0)
-                    return RedirectToAction("Index");
+                var createdEmployee =
+                    new CreatedEmployeeDto()
+                    {
+                        Name = employeeVM.Name,
+                        Address= employeeVM.Address,
+                        EmployeeType=employeeVM.EmployeeType,
+                        Gender=employeeVM.Gender,
+                        Email=employeeVM.Email,
+                        Age=employeeVM.Age,
+                        HiringDate=employeeVM.HiringDate,
+                        IsActive=employeeVM.IsActive,
+                        PhoneNumber=employeeVM.PhoneNumber,
+                        Salary=employeeVM.Salary,
+                        DepartmentId = employeeVM.DepartmentId
+                        
+                   
+
+
+
+                    };
+                var result = _employeeService.createdEmployee(createdEmployee);
+
+                
+
+
+                //if (result > 0)
+                //    return RedirectToAction("Index");
+                //else
+                //{
+                //    message= "Employee is not Created";
+                //    ModelState.AddModelError(string.Empty, message);
+                //    return View(employeeVM);
+                //}
+
+                if (result >0)
+                    TempData["Message"] = "Employee is Created";
                 else
-                {
-                    message= "Employee is not Created";
-                    ModelState.AddModelError(string.Empty, message);
-                    return View(employee);
-                }
+
+                    TempData["Message"] = "Employee is not Created";
+                return RedirectToAction(nameof(Index));
+
             }
+
             catch (Exception ex)
             {
                 //1. Log Exception 
                 _logger.LogError(ex, ex.Message);
                 //2. Set Message
                 message=_environment.IsDevelopment() ? ex.Message : "an error has occured during Creation the employee :(";
-
-
-
             }
-            ModelState.AddModelError(string.Empty, message);
-            return View(employee);
+
+           ModelState.AddModelError(string.Empty, message);
+            return View(employeeVM);
         }
 
         #endregion
@@ -124,7 +161,7 @@ namespace LinkDev.Ikea.PL.Controllers
             if (employee is null)
                 return NotFound();//404
 
-            return View(new UpdatedEmployeeDto()
+            return View(new EmployeeViewModel()
             {
                 Name = employee.Name,
                 Address= employee.Address,
@@ -136,6 +173,8 @@ namespace LinkDev.Ikea.PL.Controllers
                 IsActive=employee.IsActive,
                 PhoneNumber=employee.PhoneNumber,
                 Salary=employee.Salary,
+              
+                
 
 
              
@@ -144,10 +183,11 @@ namespace LinkDev.Ikea.PL.Controllers
 
 
         }
+        
 
         [HttpPost] //Post
         [ValidateAntiForgeryToken]
-        public IActionResult Edit([FromRoute] int id, UpdatedEmployeeDto employee)
+        public IActionResult Edit([FromRoute] int id, /*UpdatedEmployeeDto*/ EmployeeViewModel employee)
         {
             if (!ModelState.IsValid)//Sever-Side Validation
                 return View(employee);
@@ -156,12 +196,37 @@ namespace LinkDev.Ikea.PL.Controllers
 
             try
             {
+                var result = new UpdatedEmployeeDto() {
+                    Id=id,
+                    DepartmentId = employee.DepartmentId,
+                HiringDate= employee.HiringDate,
+                Salary= employee.Salary,
+                Address= employee.Address,
+                EmployeeType=employee.EmployeeType,
+                Gender=employee.Gender,
+                Email=employee.Email,
+                Age=employee.Age,
+                PhoneNumber = employee.PhoneNumber,
+                IsActive = employee.IsActive,
+                Name=employee.Name,
                 
 
-                var updated = _employeeService.UpdatedEmployee(employee) > 0;
+                
+                };
+
+                var updated = _employeeService.UpdatedEmployee(result) > 0;
+                //if (updated)
+
+                //    return RedirectToAction("Index");
+                //Message= "an error has occured during Updating the employee :(";
+
                 if (updated)
-                    return RedirectToAction("Index");
-                Message= "an error has occured during Updating the employee :(";
+                    TempData["Message"] = "Employee is Updated";
+                else
+
+                    TempData["Message"] = "Employee is not Updated";
+                return RedirectToAction(nameof(Index));
+
             }
             catch (Exception ex)
             {
@@ -179,6 +244,10 @@ namespace LinkDev.Ikea.PL.Controllers
             return View(employee);
         }
 
+
+      
+
+
         #endregion
 
 
@@ -190,12 +259,12 @@ namespace LinkDev.Ikea.PL.Controllers
             if (id is null)
                 return BadRequest();
 
-            var department = _employeeService.GetEmployeeById(id.Value);
+            var employee = _employeeService.GetEmployeeById(id.Value);
 
-            if (department is null)
+            if (employee is null)
                 return NotFound();
 
-            return View(department);
+            return View(employee);
 
         }
 
@@ -225,7 +294,7 @@ namespace LinkDev.Ikea.PL.Controllers
                 //2. Set Message
                 message=_environment.IsDevelopment() ? ex.Message : "an error has occured during deleting the employee :(";
             }
-            //ModelState.AddModelError(string.Empty, message);
+           // ModelState.AddModelError(string.Empty, message);
             return RedirectToAction(nameof(Index));
 
         } 

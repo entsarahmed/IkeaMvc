@@ -21,13 +21,13 @@ namespace LinkDev.Ikea.BLL.Services.Departments
 
         public IEnumerable<DepartmentDto> GetDepartments()
         {
-            var departments = _departmentRepository.GetIQueryable().Select(D => new DepartmentDto
+            var departments = _departmentRepository.GetIQueryable().Where(D => !D.IsDeleted).Select(D => new DepartmentDto
             {
                 Id = D.Id,
                 Name = D.Name,
                 Code = D.Code,
-                Description = D.Description,
-                CreationDate = D.CreationDate,
+                Description = D.Description ?? "No Description",
+                CreationDate = D.CreationDate ?? DateOnly.MinValue // Handle potential NULLs
 
             }).AsNoTracking().ToList();
 
@@ -45,8 +45,8 @@ namespace LinkDev.Ikea.BLL.Services.Departments
                     Id=department.Id,
                     Name=department.Name,
                     Code=department.Code,
-                    Description=department.Description,
-                    CreationDate=department.CreationDate,
+                    Description = department.Description ?? "No Description Available", // Handle potential NULLs
+                    CreationDate = department.CreationDate ?? DateOnly.MinValue, // Handle potential NULLs
                     CreatedBy=department.CreatedBy,
                     CreatedOn=department.CreatedOn,
                     LastModifiedBy=department.LastModifiedBy,
@@ -55,6 +55,7 @@ namespace LinkDev.Ikea.BLL.Services.Departments
                 };
             return null;
         }
+
         public int createdDepartment(CreatedDepartmentDto departmentDto)
         {
             var CreatedDepartment = new Department()

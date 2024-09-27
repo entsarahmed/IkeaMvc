@@ -48,7 +48,7 @@ namespace LinkDev.Ikea.DAL.Entities.Employees
         public int? DepartmentId { get; set; }
 
         //Navigational Property [One] [Related Data]
-        public virtual Department? Department { get; set; }
+        public virtual Department? Departments { get; set; }
 
              
 
