@@ -24,7 +24,7 @@ namespace LinkDev.Ikea.BLL.Models.Departments
         //[DataType(DateType.PhoneNumber)]
         public string? PhoneNumber { get; set; }
 
-        public int? DepartmentId { get; set; }
+        //public int? DepartmentId { get; set; }
 
     }
 }

@@ -23,4 +23,4 @@ searchInp.addEventListener("keyup", function () {
             }
         }
 
-})
+});

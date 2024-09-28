@@ -1,4 +1,5 @@
-﻿using LinkDev.Ikea.BLL.Models.Departments;
+﻿using AutoMapper;
+using LinkDev.Ikea.BLL.Models.Departments;
 using LinkDev.Ikea.BLL.Services.Departments;
 using LinkDev.Ikea.DAL.Entities.Departments;
 using LinkDev.Ikea.PL.ViewModels.Departments;
@@ -18,16 +19,17 @@ namespace LinkDev.Ikea.PL.Controllers
         private readonly IDepartmentService _departmentService;
         private readonly ILogger<DepartmentController> _logger;
         private readonly IWebHostEnvironment _environment;
+        private readonly IMapper _mapper;
 
+       
 
-
-
-
-        public DepartmentController(IDepartmentService departmentService, IWebHostEnvironment environment, ILogger<DepartmentController> logger)
+        public DepartmentController(IDepartmentService departmentService, IWebHostEnvironment environment, ILogger<DepartmentController> logger, IMapper mapper)
         {
             _departmentService=departmentService;
             _environment=environment;
             _logger=logger;
+            _mapper=mapper;
+
 
         }
         #endregion
@@ -35,7 +37,7 @@ namespace LinkDev.Ikea.PL.Controllers
 
 
         #region Index
-        
+
         // View's Dictionary: Pass Data From Controller[Action] to View (from View  -> [PartialView,Layout]
 
         //Pass Data from View to Partial View
@@ -102,27 +104,31 @@ namespace LinkDev.Ikea.PL.Controllers
             var message = string.Empty;
             try
             {
-                var createdDepartment = new CreatedDepartmentDto()
-                {
-                    Code= departmentVM.Code,
-                    Name= departmentVM.Name,
-                    Description=departmentVM.Description,
-                    CreationDate=departmentVM.CreationDate,
-                };
+                
+                var CreatedDepartment= _mapper.Map<CreatedDepartmentDto>(departmentVM);  
+                
+                //Manual Mapping
+                //var createdDepartment = new CreatedDepartmentDto()
+                //{
+                //    Code= departmentVM.Code,
+                //    Name= departmentVM.Name,
+                //    Description=departmentVM.Description,
+                //    CreationDate=departmentVM.CreationDate,
+                //};
 
-                var created = _departmentService.createdDepartment(createdDepartment);
+                var created = _departmentService.createdDepartment(CreatedDepartment) > 0;
 
 
                 //3. TempData is a Property of type Dictionary Object (introduced in .NET Framework 3.5)
                 //        :Used for Transfering the Data Between 2 Consuctive Request 
-                if (created >0)
+                if (!created)
                     TempData["Message"] = "Department is Created";
                else
                 
                     TempData["Message"] = "Department is not Created";
 
                 //ModelState.AddModelError(string.Empty, message);
-               return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index));
 
 
             }
@@ -137,6 +143,8 @@ namespace LinkDev.Ikea.PL.Controllers
                 //return RedirectToAction(nameof(Index));
                 ModelState.AddModelError(string.Empty, message);
                 return View(departmentVM);
+
+
 
             }
         }
@@ -161,22 +169,28 @@ namespace LinkDev.Ikea.PL.Controllers
             if (department is null)
                 return NotFound();//404
 
-            return View(new DepartmentViewModel()
-            {
-                Code = department.Code,
-                Name = department.Name,
-                Description = department.Description,
-                CreationDate = department.CreationDate,
-            }
-                );
+            var departmentVM = _mapper.Map<DepartmentDetailsDto, DepartmentViewModel>(department);
+
+            return View(departmentVM);
+           //Manual Mapping
+            //return View(new DepartmentViewModel()
+            //{
+            //    Code = department.Code,
+            //    Name = department.Name,
+            //    Description = department.Description,
+            //    CreationDate = department.CreationDate,
+            //}
+            //    );
 
 
         }
 
         [HttpPost] //Post
         [ValidateAntiForgeryToken]
-        public IActionResult Edit([FromRoute] int id, DepartmentViewModel departmentVM)
+        public IActionResult Edit([FromRoute] int? id, DepartmentViewModel departmentVM)
         {
+            if (id is null)
+                return BadRequest();
             if (!ModelState.IsValid)//Sever-Side Validation
                 return View(departmentVM);
                 
@@ -185,16 +199,16 @@ namespace LinkDev.Ikea.PL.Controllers
 
             try
             {
-                var departmentToUpdate = new UpdatedDepartmentDto()
-                {
-                    Id=id,
-                    Code= departmentVM.Code,
-                    Name= departmentVM.Name,
-                    Description=departmentVM.Description,
-                    CreationDate=departmentVM.CreationDate,
-                };
+                //var departmentToUpdate = new UpdatedDepartmentDto()
+                //{
+                //    Id=id.Value,
+                //    Code= departmentVM.Code,
+                //    Name= departmentVM.Name,
+                //    Description=departmentVM.Description,
+                //    CreationDate=departmentVM.CreationDate,
+                //};
 
-
+                var departmentToUpdate = _mapper.Map<UpdatedDepartmentDto>(departmentVM);
                 var updated = _departmentService.UpdatedDepartment(departmentToUpdate) > 0;
 
                 if (updated)
