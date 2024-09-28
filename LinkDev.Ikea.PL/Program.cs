@@ -3,6 +3,7 @@ using LinkDev.Ikea.BLL.Services.Employees;
 using LinkDev.Ikea.DAL.Persistance.Data;
 using LinkDev.Ikea.DAL.Persistance.Repositories.Departments;
 using LinkDev.Ikea.DAL.Persistance.Repositories.Employees;
+using LinkDev.Ikea.DAL.Persistance.UnitOfWork;
 using LinkDev.Ikea.PL.Controllers.Mapping;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -28,8 +29,10 @@ namespace LinkDev.Ikea.PL
             });
 
 
-            builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
-            builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+            //builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
+            //builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+
+            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             builder.Services.AddScoped<IDepartmentService, DepartmentService>();
             builder.Services.AddScoped<IEmployeeService, EmployeeService>();

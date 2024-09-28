@@ -12,8 +12,8 @@ namespace LinkDev.Ikea.DAL.Persistance.Repositories._Generic
         IEnumerable<T> GetAll(bool WithAsNoTracking = true);
         IQueryable<T> GetIQueryable();
         T? Get(int id);
-        int Add(T entity);
-        int Update(T entity);
-        int Delete(T entity);
+        void Add(T entity);
+        void Update(T entity);
+        void Delete(T entity);
     }
 }

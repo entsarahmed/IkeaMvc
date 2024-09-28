@@ -1,4 +1,5 @@
-﻿using LinkDev.Ikea.BLL.Models.Departments;
+﻿using AutoMapper;
+using LinkDev.Ikea.BLL.Models.Departments;
 using LinkDev.Ikea.BLL.Models.Employees;
 using LinkDev.Ikea.BLL.Services.Departments;
 using LinkDev.Ikea.BLL.Services.Employees;
@@ -17,16 +18,18 @@ namespace LinkDev.Ikea.PL.Controllers
         #region Services
         private readonly IEmployeeService _employeeService;
         private readonly ILogger<EmployeeController> _logger;
+        private readonly IMapper _mapper;
         private readonly IWebHostEnvironment _environment;
         private readonly IDepartmentService _departmentService;
 
       
 
-        public EmployeeController(IEmployeeService employeeService, IDepartmentService departmentService, IWebHostEnvironment environment, ILogger<EmployeeController> logger)
+        public EmployeeController(IEmployeeService employeeService, IDepartmentService departmentService, IWebHostEnvironment environment, ILogger<EmployeeController> logger,IMapper mapper)
         {
             _employeeService=employeeService;
             _environment=environment;
             _logger=logger;
+            _mapper=mapper;
             _departmentService=departmentService;
 
 
@@ -90,27 +93,28 @@ namespace LinkDev.Ikea.PL.Controllers
             var message = string.Empty;
             try
             {
-                var createdEmployee =
-                    new CreatedEmployeeDto()
-                    {
-                        Name = employeeVM.Name,
-                        Address= employeeVM.Address,
-                        EmployeeType=employeeVM.EmployeeType,
-                        Gender=employeeVM.Gender,
-                        Email=employeeVM.Email,
-                        Age=employeeVM.Age,
-                        HiringDate=employeeVM.HiringDate,
-                        IsActive=employeeVM.IsActive,
-                        PhoneNumber=employeeVM.PhoneNumber,
-                        Salary=employeeVM.Salary,
-                        DepartmentId = employeeVM.DepartmentId
+                var CreatedEmployee = _mapper.Map<CreatedEmployeeDto>(employeeVM);   
+                //var createdEmployee =
+                //    new CreatedEmployeeDto()
+                //    {
+                //        Name = employeeVM.Name,
+                //        Address= employeeVM.Address,
+                //        EmployeeType=employeeVM.EmployeeType,
+                //        Gender=employeeVM.Gender,
+                //        Email=employeeVM.Email,
+                //        Age=employeeVM.Age,
+                //        HiringDate=employeeVM.HiringDate,
+                //        IsActive=employeeVM.IsActive,
+                //        PhoneNumber=employeeVM.PhoneNumber,
+                //        Salary=employeeVM.Salary,
+                //        DepartmentId = employeeVM.DepartmentId
                         
                    
 
 
 
-                    };
-                var result = _employeeService.createdEmployee(createdEmployee);
+                //    };
+                var result = _employeeService.createdEmployee(CreatedEmployee);
 
                 
 
@@ -164,26 +168,30 @@ namespace LinkDev.Ikea.PL.Controllers
 
             if (employee is null)
                 return NotFound();//404
+            var EmployeeVM= _mapper.Map<EmployeeViewModel>(employee);
+            return View(EmployeeVM);
 
-            return View(new EmployeeViewModel()
-            {
-                Name = employee.Name,
-                Address= employee.Address,
-                EmployeeType=employee.EmployeeType,
-                Gender=employee.Gender,
-                Email=employee.Email,
-                Age=employee.Age,
-                HiringDate=employee.HiringDate,
-                IsActive=employee.IsActive,
-                PhoneNumber=employee.PhoneNumber,
-                Salary=employee.Salary,
+            //return View(new EmployeeViewModel()
+            //{
+            //    Name = employee.Name,
+            //    Address= employee.Address,
+            //    EmployeeType=employee.EmployeeType,
+            //    Gender=employee.Gender,
+            //    Email=employee.Email,
+            //    Age=employee.Age,
+            //    HiringDate=employee.HiringDate,
+            //    IsActive=employee.IsActive,
+            //    PhoneNumber=employee.PhoneNumber,
+            //    Salary=employee.Salary,
               
                 
 
 
              
-            }
-                );
+            //}
+               
+            
+            //);
 
 
         }
@@ -200,31 +208,35 @@ namespace LinkDev.Ikea.PL.Controllers
 
             try
             {
-                var result = new UpdatedEmployeeDto() {
-                    Id=id,
-                    DepartmentId = employee.DepartmentId,
-                HiringDate= employee.HiringDate,
-                Salary= employee.Salary,
-                Address= employee.Address,
-                EmployeeType=employee.EmployeeType,
-                Gender=employee.Gender,
-                Email=employee.Email,
-                Age=employee.Age,
-                PhoneNumber = employee.PhoneNumber,
-                IsActive = employee.IsActive,
-                Name=employee.Name,
-                
+                var EditEmployee = _mapper.Map<UpdatedEmployeeDto>(employee);
 
-                
-                };
 
-                var updated = _employeeService.UpdatedEmployee(result) > 0;
+                //var result = new UpdatedEmployeeDto() {
+                //    Id=id,
+                //    DepartmentId = employee.DepartmentId,
+                //HiringDate= employee.HiringDate,
+                //Salary= employee.Salary,
+                //Address= employee.Address,
+                //EmployeeType=employee.EmployeeType,
+                //Gender=employee.Gender,
+                //Email=employee.Email,
+                //Age=employee.Age,
+                //PhoneNumber = employee.PhoneNumber,
+                //IsActive = employee.IsActive,
+                //Name=employee.Name,
+
+
+
+
+               // };
+
+                var updated = _employeeService.UpdatedEmployee(EditEmployee) ;
                 //if (updated)
 
                 //    return RedirectToAction("Index");
                 //Message= "an error has occured during Updating the employee :(";
 
-                if (updated)
+                if (updated > 0)
                     TempData["Message"] = "Employee is Updated";
                 else
 
