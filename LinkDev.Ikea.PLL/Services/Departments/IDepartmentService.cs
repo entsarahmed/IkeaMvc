@@ -10,7 +10,7 @@ namespace LinkDev.Ikea.BLL.Services.Departments
 {
     public interface IDepartmentService
     {
-        IEnumerable<DepartmentDto> GetDepartments();
+        IEnumerable<DepartmentDto> GetEmployees();
         DepartmentDetailsDto? GetDepartmentById(int id);
 
         int createdDepartment(CreatedDepartmentDto department);

@@ -40,13 +40,37 @@ namespace LinkDev.Ikea.PL.Controllers
 
         #region Index
         [HttpGet]
-        public IActionResult Index(string search)
+        public IActionResult Index(string Search)
         {
-            var employees = _employeeService.GetEmployees(search);
-            if (!string.IsNullOrEmpty(search))
-                return PartialView("Partial/_EmployeeListPartial", employees);
+
+
+               var employees = _employeeService.GetEmployees(Search);
             return View(employees);
         }
+
+
+        [HttpGet]
+        public IActionResult Search(string Search)
+        {
+
+
+            var employees = _employeeService.GetEmployees(Search);
+
+            return PartialView("Partial/_EmployeeListPartial",employees);
+        }
+
+
+
+        //[HttpGet]
+        //public IActionResult Search(string search)
+        //{
+        //    var employees = _employeeService.GetEmployees(search);
+        //    if (!string.IsNullOrEmpty(search))
+        //       return PartialView("Partial/_EmployeeListPartial", employees);
+        //}
+
+
+
 
 
 
@@ -231,6 +255,7 @@ namespace LinkDev.Ikea.PL.Controllers
                // };
 
                 var updated = _employeeService.UpdatedEmployee(EditEmployee) ;
+               
                 //if (updated)
 
                 //    return RedirectToAction("Index");

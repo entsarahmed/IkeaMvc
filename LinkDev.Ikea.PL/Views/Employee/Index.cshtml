@@ -86,7 +86,7 @@
         <div class="col-8">
             @* <input type="text" name="search" class="form-control" id="SearchInp" placeholder="Search By Name" /> *@
 
-            <input type="text" id="searchInput" class="form-control" placeholder="Search employees..." />
+            <input type="text" id="searchInp" name="searchInp" class="form-control" placeholder="Search employees..." />
 
         </div>
         <div class="col-4">
@@ -165,3 +165,26 @@ else
         <h3>There are No Employees :(</h3>
     </div>
 }
+<script>
+    $(document).ready(function () {
+        const searchBar = $('#searchInp');
+        const table = $('table');
+
+        searchBar.on('keyup', function (event) {
+            var searchValue = searchBar.val();
+
+            $.ajax({
+                url: '/Employee/Search',
+                type: 'Get',
+                data: { Search: searchValue },
+                success: function (result) {
+                    table.html(result);
+                },
+                error: function (xhr, status, error) {
+                    console.log(error);
+                }
+            });
+        });
+    });
+</script>
+

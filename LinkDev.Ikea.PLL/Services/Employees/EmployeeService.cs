@@ -23,9 +23,9 @@ namespace LinkDev.Ikea.BLL.Services.Employees
 
 
 
-        public IEnumerable<EmployeeDto> GetEmployees(string search)
+        public IEnumerable<EmployeeDto> GetEmployees(string Search)
         {
-            var query = _unitOfWork.EmployeeRepository.GetIQueryable().Where(E => !E.IsDeleted && (string.IsNullOrEmpty(search) || E.Name.ToLower().Contains(search.ToLower()))).Include(E => E.Departments).Select(employee => new EmployeeDto()
+            var query = _unitOfWork.EmployeeRepository.GetIQueryable().Where(E => !E.IsDeleted && (string.IsNullOrEmpty(Search) || E.Name.ToLower().Contains(Search.ToLower()))).Include(E => E.Departments).Select(employee => new EmployeeDto()
             {
                 Id=employee.Id,
                 Name=employee.Name,

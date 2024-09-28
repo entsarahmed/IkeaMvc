@@ -107,7 +107,7 @@
  @{ 
     // var Departments = new SelectList(ViewData["Departments"] as IEnumerable<DepartmentDto>, nameof(DepartmentDto.Id), nameof(DepartmentDto.Name));
 
-    var Departments = new SelectList(departmentService.GetDepartments(), nameof(DepartmentDto.Id), nameof(DepartmentDto.Name));
+    var Departments = new SelectList(departmentService.GetEmployees(), nameof(DepartmentDto.Id), nameof(DepartmentDto.Name));
 
 }
 <!-- Custom styles to apply another fantastic design -->

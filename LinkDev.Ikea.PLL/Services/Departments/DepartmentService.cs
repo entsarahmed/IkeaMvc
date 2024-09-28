@@ -20,7 +20,7 @@ namespace LinkDev.Ikea.BLL.Services.Departments
             _unitOfWork=unitOfWork;
         }
 
-        public IEnumerable<DepartmentDto> GetDepartments()
+        public IEnumerable<DepartmentDto> GetEmployees()
         {
             var departments = _unitOfWork.DepartmentRepository.GetIQueryable().Where(D => !D.IsDeleted).Select(D => new DepartmentDto
             {

@@ -10,7 +10,7 @@ namespace LinkDev.Ikea.BLL.Services.Employees
 {
     public interface IEmployeeService
     {
-        IEnumerable<EmployeeDto> GetEmployees(string search);
+        IEnumerable<EmployeeDto> GetEmployees(string Search);
         EmployeeDetailsDto? GetEmployeeById(int id);
 
         int createdEmployee(CreatedEmployeeDto employee);

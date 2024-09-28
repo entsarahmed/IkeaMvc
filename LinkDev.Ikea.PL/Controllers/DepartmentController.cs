@@ -59,7 +59,7 @@ namespace LinkDev.Ikea.PL.Controllers
 
            // ViewBag.Message="Hello ViewBag";
 
-            var departments = _departmentService.GetDepartments();
+            var departments = _departmentService.GetEmployees();
             return View(departments);
         }
 
