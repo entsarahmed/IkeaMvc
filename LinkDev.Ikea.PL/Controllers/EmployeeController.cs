@@ -37,14 +37,17 @@ namespace LinkDev.Ikea.PL.Controllers
 
         #region Index
         [HttpGet] 
-        public IActionResult Index()
+        public IActionResult Index(string search)
         {
-            var departments = _employeeService.GetEmployees();
-            return View(departments);
+            var employees = _employeeService.GetEmployees(search);
+            if(!string.IsNullOrEmpty(search))
+                return PartialView("Partial/_EmployeeListPartial",employees);
+
+            return View(employees);
         }
 
         #endregion
-
+        
 
         #region Details
 
