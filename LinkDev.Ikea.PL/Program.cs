@@ -1,3 +1,4 @@
+using LinkDev.Ikea.BLL.Common.Services.Attachments;
 using LinkDev.Ikea.BLL.Services.Departments;
 using LinkDev.Ikea.BLL.Services.Employees;
 using LinkDev.Ikea.DAL.Persistance.Data;
@@ -7,6 +8,7 @@ using LinkDev.Ikea.DAL.Persistance.UnitOfWork;
 using LinkDev.Ikea.PL.Controllers.Mapping;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using System.Reflection;
 
 namespace LinkDev.Ikea.PL
 {
@@ -35,9 +37,18 @@ namespace LinkDev.Ikea.PL
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             builder.Services.AddScoped<IDepartmentService, DepartmentService>();
+           
             builder.Services.AddScoped<IEmployeeService, EmployeeService>();
 
+
+            builder.Services.AddTransient<IAttachmentService, AttachmentService>();
+
+
+
+           // builder.Services.AddAutoMapper(Assembly.GetAssembly(typeof(MappingProfile)))
+           // builder.Services.AddAutoMapper(typeof(MappingProfile));
             builder.Services.AddAutoMapper(M => M.AddProfile( new MappingProfile()));
+
 
             #endregion
 

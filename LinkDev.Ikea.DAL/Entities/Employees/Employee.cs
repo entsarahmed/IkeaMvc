@@ -50,6 +50,7 @@ namespace LinkDev.Ikea.DAL.Entities.Employees
         //Navigational Property [One] [Related Data]
         public virtual Department? Departments { get; set; }
 
+        public string? Image { get; set; }
              
 
     }

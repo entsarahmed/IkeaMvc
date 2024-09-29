@@ -1,4 +1,5 @@
-﻿using LinkDev.Ikea.BLL.Models.Employees;
+﻿using LinkDev.Ikea.BLL.Common.Services.Attachments;
+using LinkDev.Ikea.BLL.Models.Employees;
 using LinkDev.Ikea.DAL.Entities.Employees;
 using LinkDev.Ikea.DAL.Persistance.Repositories.Employees;
 using LinkDev.Ikea.DAL.Persistance.UnitOfWork;
@@ -14,11 +15,13 @@ namespace LinkDev.Ikea.BLL.Services.Employees
     public class EmployeeService : IEmployeeService
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IAttachmentService _attachmentService;
 
-        public EmployeeService(IUnitOfWork unitOfWork) //Ask CLR for Creating Object from class Implementing "IUnitOfWork"
+        public EmployeeService(IUnitOfWork unitOfWork, IAttachmentService attachmentService) //Ask CLR for Creating Object from class Implementing "IUnitOfWork"
         {
             _unitOfWork=unitOfWork;
 
+            _attachmentService=attachmentService;
         }
 
 
@@ -78,6 +81,7 @@ namespace LinkDev.Ikea.BLL.Services.Employees
 
         public int createdEmployee(CreatedEmployeeDto employeeDto)
         {
+
             var employee = new Employee()
             {
                 Name=employeeDto.Name,
@@ -91,12 +95,15 @@ namespace LinkDev.Ikea.BLL.Services.Employees
                 Gender =employeeDto.Gender,
                 EmployeeType=employeeDto.EmployeeType,
                 DepartmentId=employeeDto.DepartmentId,
-
                 CreatedBy=1,
                 LastModifiedBy=1,
                 CreatedOn= DateTime.UtcNow,
 
             };
+
+            if(employeeDto.Image != null) 
+         employee.Image=   _attachmentService.Upload(employeeDto.Image, "images");
+
 
             //Add 
             //Update

@@ -46,6 +46,7 @@ namespace LinkDev.Ikea.PL.ViewModels.Employees
         [Display(Name = "Department")]
         public int? DepartmentId { get; set; }
         public int? Id { get; set; }
+        public IFormFile? Image { get; set; }
 
     }
 }

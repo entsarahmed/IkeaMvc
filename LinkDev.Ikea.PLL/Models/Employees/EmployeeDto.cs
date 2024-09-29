@@ -39,6 +39,7 @@ namespace LinkDev.Ikea.BLL.Models.Employees
 
         public int? DepartmentId { get; set; } // Ensure this property exists
 
+        public string? Image { get; set; }
 
 
 
