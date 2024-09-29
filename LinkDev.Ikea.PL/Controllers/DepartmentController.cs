@@ -46,7 +46,7 @@ namespace LinkDev.Ikea.PL.Controllers
 
 
         [HttpGet] //Get: /Department/Index
-        public IActionResult Index()
+        public  async Task<IActionResult> Index()
         {
             //1. ViewData ia a Dictionary Type Property (introduced in ASP.NET FrameWork 3.5
             /////   => It helps us to transfer the data from Controller[Action] to View 
@@ -59,7 +59,7 @@ namespace LinkDev.Ikea.PL.Controllers
 
            // ViewBag.Message="Hello ViewBag";
 
-            var departments = _departmentService.GetEmployees();
+            var departments =await _departmentService.GetAllDepartmentsAsync();
             return View(departments);
         }
 
@@ -69,13 +69,13 @@ namespace LinkDev.Ikea.PL.Controllers
         #region Details
 
         [HttpGet] // Get: /Department/Details
-        public IActionResult Details(int? id)
+        public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {
                 return BadRequest();
             }
-            var department = _departmentService.GetDepartmentById(id.Value);
+            var department =await _departmentService.GetDepartmentByIdAsync(id.Value);
             if (department is null)
                 return NotFound();
             return View(department);
@@ -97,7 +97,7 @@ namespace LinkDev.Ikea.PL.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(DepartmentViewModel  departmentVM)
+        public async Task<IActionResult> Create(DepartmentViewModel  departmentVM)
         {
             if (!ModelState.IsValid)
                 return View(departmentVM);
@@ -116,7 +116,7 @@ namespace LinkDev.Ikea.PL.Controllers
                 //    CreationDate=departmentVM.CreationDate,
                 //};
 
-                var created = _departmentService.createdDepartment(CreatedDepartment) > 0;
+                var created =await _departmentService.createdDepartmentAsync(CreatedDepartment) > 0;
 
 
                 //3. TempData is a Property of type Dictionary Object (introduced in .NET Framework 3.5)
@@ -159,12 +159,12 @@ namespace LinkDev.Ikea.PL.Controllers
 
         [HttpGet] //Get: /Department/Edit/id
 
-        public IActionResult Edit(int? id)
+        public async Task<IActionResult> Edit(int? id)
         {
             if (id is null)
                 return BadRequest();//400
 
-            var department = _departmentService.GetDepartmentById(id.Value);
+            var department =await _departmentService.GetDepartmentByIdAsync(id.Value);
 
             if (department is null)
                 return NotFound();//404
@@ -187,7 +187,7 @@ namespace LinkDev.Ikea.PL.Controllers
 
         [HttpPost] //Post
         [ValidateAntiForgeryToken]
-        public IActionResult Edit([FromRoute] int? id, DepartmentViewModel departmentVM)
+        public async Task<IActionResult> Edit([FromRoute] int? id, DepartmentViewModel departmentVM)
         {
             if (id is null)
                 return BadRequest();
@@ -209,7 +209,7 @@ namespace LinkDev.Ikea.PL.Controllers
                 //};
 
                 var departmentToUpdate = _mapper.Map<UpdatedDepartmentDto>(departmentVM);
-                var updated = _departmentService.UpdatedDepartment(departmentToUpdate) > 0;
+                var updated =await _departmentService.UpdatedDepartmentAsync(departmentToUpdate) > 0;
 
                 if (updated)
                     TempData["Message"] = "Department is Updated";
@@ -241,12 +241,12 @@ namespace LinkDev.Ikea.PL.Controllers
         #region Delete
 
         [HttpGet]
-        public IActionResult Delete(int? id)
+        public async Task<IActionResult> Delete(int? id)
         {
             if (id is null)
                 return BadRequest();
 
-            var department = _departmentService.GetDepartmentById(id.Value);
+            var department =await _departmentService.GetDepartmentByIdAsync(id.Value);
 
             if (department is null)
                 return NotFound();
@@ -290,7 +290,7 @@ namespace LinkDev.Ikea.PL.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
             if (id <= 0)
             {
@@ -300,7 +300,7 @@ namespace LinkDev.Ikea.PL.Controllers
 
             try
             {
-                var deleted = _departmentService.DeleteDepartment(id);
+                var deleted =await _departmentService.DeleteDepartmentAsync(id);
                 if (deleted)
                 {
                     TempData["SuccessMessage"] = "Department deleted successfully.";

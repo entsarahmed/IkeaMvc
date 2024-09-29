@@ -14,7 +14,7 @@ namespace LinkDev.Ikea.BLL.Common.Services.Attachments
 
 
 
-        public string? Upload(IFormFile file, string folderName)
+        public async Task<string?> UploadFileAsync(IFormFile file, string folderName)
         {
           var extension = Path.GetExtension(file.FileName);
 
@@ -56,12 +56,12 @@ namespace LinkDev.Ikea.BLL.Common.Services.Attachments
                     
     //                }
 
-            file.CopyTo(fileStream);
+      await file.CopyToAsync(fileStream);
             return fileName;
         
         }
 
-        public bool Delete(string filePath)
+        public bool DeleteFile(string filePath)
         {
 
             if (File.Exists(filePath))

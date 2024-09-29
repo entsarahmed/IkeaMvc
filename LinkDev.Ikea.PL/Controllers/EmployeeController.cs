@@ -1,14 +1,9 @@
 ﻿using AutoMapper;
-using LinkDev.Ikea.BLL.Models.Departments;
 using LinkDev.Ikea.BLL.Models.Employees;
 using LinkDev.Ikea.BLL.Services.Departments;
 using LinkDev.Ikea.BLL.Services.Employees;
-using LinkDev.Ikea.DAL.Entities.Departments;
-using LinkDev.Ikea.PL.ViewModels.Departments;
 using LinkDev.Ikea.PL.ViewModels.Employees;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.DotNet.Scaffolding.Shared.Messaging;
 
 namespace LinkDev.Ikea.PL.Controllers
 {
@@ -40,21 +35,21 @@ namespace LinkDev.Ikea.PL.Controllers
 
         #region Index
         [HttpGet]
-        public IActionResult Index(string Search)
+        public async Task<IActionResult> Index(string Search)
         {
 
 
-               var employees = _employeeService.GetEmployees(Search);
+               var employees =await _employeeService.GetEmployeesAsync(Search);
             return View(employees);
         }
 
 
         [HttpGet]
-        public IActionResult Search(string Search)
+        public async Task<IActionResult> Search(string Search)
         {
 
 
-            var employees = _employeeService.GetEmployees(Search);
+            var employees = await _employeeService.GetEmployeesAsync(Search);
 
             return PartialView("Partial/_EmployeeListPartial",employees);
         }
@@ -80,13 +75,12 @@ namespace LinkDev.Ikea.PL.Controllers
         #region Details
 
         [HttpGet] 
-        public IActionResult Details(int? id)
+        public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
-            {
                 return BadRequest();
-            }
-            var employee = _employeeService.GetEmployeeById(id.Value);
+            
+            var employee = await _employeeService.GetEmployeeByIdAsync(id.Value);
             if (employee is null)
                 return NotFound();
             return View(employee);
@@ -109,7 +103,7 @@ namespace LinkDev.Ikea.PL.Controllers
 
         [HttpPost]
        [ValidateAntiForgeryToken]
-        public IActionResult Create(/*CreatedEmployeeDto*/  EmployeeViewModel employeeVM)
+        public async Task<IActionResult> Create(/*CreatedEmployeeDto*/  EmployeeViewModel employeeVM)
         {
 
             if (!ModelState.IsValid)
@@ -138,7 +132,7 @@ namespace LinkDev.Ikea.PL.Controllers
 
 
                 //    };
-                var result = _employeeService.createdEmployee(CreatedEmployee);
+                var result =await _employeeService.CreatedEmployeeAsync(CreatedEmployee);
 
                 
 
@@ -183,12 +177,12 @@ namespace LinkDev.Ikea.PL.Controllers
 
         [HttpGet] 
 
-        public IActionResult Edit(int? id)
+        public async Task<IActionResult> Edit(int? id)
         {
             if (id is null)
                 return BadRequest();//400
 
-            var employee = _employeeService.GetEmployeeById(id.Value);
+            var employee =await _employeeService.GetEmployeeByIdAsync(id.Value);
 
             if (employee is null)
                 return NotFound();//404
@@ -223,7 +217,7 @@ namespace LinkDev.Ikea.PL.Controllers
 
         [HttpPost] //Post
         [ValidateAntiForgeryToken]
-        public IActionResult Edit([FromRoute] int id, /*UpdatedEmployeeDto*/ EmployeeViewModel employee)
+        public async Task<IActionResult> Edit([FromRoute] int id, /*UpdatedEmployeeDto*/ EmployeeViewModel employee)
         {
             if (!ModelState.IsValid)//Sever-Side Validation
                 return View(employee);
@@ -254,7 +248,7 @@ namespace LinkDev.Ikea.PL.Controllers
 
                // };
 
-                var updated = _employeeService.UpdatedEmployee(EditEmployee) ;
+                var updated =await _employeeService.UpdatedEmployeeAsync(EditEmployee) ;
                
                 //if (updated)
 
@@ -281,6 +275,7 @@ namespace LinkDev.Ikea.PL.Controllers
 
 
             }
+
             ModelState.AddModelError(string.Empty, Message);
             return View(employee);
         }
@@ -300,7 +295,7 @@ namespace LinkDev.Ikea.PL.Controllers
             if (id is null)
                 return BadRequest();
 
-            var employee = _employeeService.GetEmployeeById(id.Value);
+            var employee = _employeeService.GetEmployeeByIdAsync(id.Value);
 
             if (employee is null)
                 return NotFound();
@@ -312,14 +307,14 @@ namespace LinkDev.Ikea.PL.Controllers
 
         [HttpPost] //Post
         [ValidateAntiForgeryToken]
-        public IActionResult Delete(int id)
+        public  async Task<IActionResult> Delete(int id)
         {
             var message = string.Empty;
 
             try
             {
 
-                var deleted = _employeeService.DeleteEmployee(id);
+                var deleted = await _employeeService.DeleteEmployeeAsync(id);
                 if (deleted)
                     return RedirectToAction("Index");
                 message= "an error has occured during deleting the employee :(";

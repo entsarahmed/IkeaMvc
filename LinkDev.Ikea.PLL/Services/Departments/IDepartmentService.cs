@@ -10,12 +10,12 @@ namespace LinkDev.Ikea.BLL.Services.Departments
 {
     public interface IDepartmentService
     {
-        IEnumerable<DepartmentDto> GetEmployees();
-        DepartmentDetailsDto? GetDepartmentById(int id);
+       Task<IEnumerable<DepartmentDto>> GetAllDepartmentsAsync();
+        Task<DepartmentDetailsDto?> GetDepartmentByIdAsync(int id);
 
-        int createdDepartment(CreatedDepartmentDto department);
-        int UpdatedDepartment(UpdatedDepartmentDto department);
-        bool DeleteDepartment(int id);
+        Task<int> createdDepartmentAsync(CreatedDepartmentDto departmentDto);
+       Task<int> UpdatedDepartmentAsync(UpdatedDepartmentDto departmentDto);
+        Task<bool> DeleteDepartmentAsync(int id);
              
 
     }
