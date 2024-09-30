@@ -16,9 +16,11 @@ namespace LinkDev.Ikea.BLL.Common.Services.Attachments
 
         public async Task<string?> UploadFileAsync(IFormFile file, string folderName)
         {
-          var extension = Path.GetExtension(file.FileName);
+            if (file == null || file.Length == 0)
+                return null;
+            var extension = Path.GetExtension(file.FileName);
 
-            if (!_allowedExtensions.Contains(extension))
+            if (!_allowedExtensions.Contains(extension.ToLower()))
                 return null;
 
             if (file.Length > _allowedMaxSize)
@@ -26,9 +28,9 @@ namespace LinkDev.Ikea.BLL.Common.Services.Attachments
 
             //var folderPath = $"{Directory.GetCurrentDirectory()}\\wwwroot\\Files\\{folderName}";
 
-            var folderPath = Path.Combine(Directory.GetCurrentDirectory(), "\\wwwroot\\Files\\", folderName);
+            var folderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot","Files", folderName);
            
-            if(Directory.Exists(folderPath))
+            if(!Directory.Exists(folderPath))
                 Directory.CreateDirectory(folderPath);
 
 

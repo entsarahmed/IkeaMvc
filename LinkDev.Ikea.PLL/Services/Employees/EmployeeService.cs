@@ -43,7 +43,7 @@ namespace LinkDev.Ikea.BLL.Services.Employees
                 Gender =nameof(employee.Gender),
                 EmployeeType=nameof(employee.EmployeeType),
                 Department = employee.Departments != null ? employee.Departments.Name : string.Empty,
-
+                DepartmentId=employee.DepartmentId
             }).ToListAsync();
 
             return query;
@@ -71,10 +71,10 @@ namespace LinkDev.Ikea.BLL.Services.Employees
                     Salary=employee.Salary,
                     Gender = employee.Gender,
                     EmployeeType= employee.EmployeeType,
-                    DepartmentId= employee.DepartmentId,
+                   DepartmentId= employee.DepartmentId,
                     PhoneNumber=employee.PhoneNumber,
                     HiringDate=employee.HiringDate,
-                    Department =employee.Departments.Name,
+                    Department =employee.Departments.Name, 
                     Image=employee.Image
 
                 };

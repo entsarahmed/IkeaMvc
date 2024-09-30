@@ -1,4 +1,5 @@
 ﻿using LinkDev.Ikea.DAL.Entities;
+using LinkDev.Ikea.DAL.Entities.Employees;
 using LinkDev.Ikea.DAL.Persistance.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
@@ -37,15 +38,24 @@ namespace LinkDev.Ikea.DAL.Persistance.Repositories._Generic
 
         public async Task<T?> GetAsync(int id)
         {
-            return await _dbContext.Set<T>().FindAsync(id);
+            var entity = await _dbContext.Set<T>().FindAsync(id);
+
+            if (entity != null)
+            {
+                // Set a default value if LastModifiedOn is null (e.g., set it to DateTime.Now)
+                entity.LastModifiedOn = entity.LastModifiedOn ?? DateTime.Now;
+            }
+
+            return entity;
+            // return await _dbContext.Set<T>().FindAsync(id);
 
             //return _dbContext.Find<T>(id);
 
 
-        //var T = _dbContext.Ts.Local.FirstOrDefault(D => D.Id == id);   
-        //   if (T == null)
-        //        T = _dbContext.Ts.FirstOrDefault(D => D.Id == id);    
-        //    return T;
+            //var T = _dbContext.Ts.Local.FirstOrDefault(D => D.Id == id);   
+            //   if (T == null)
+            //        T = _dbContext.Ts.FirstOrDefault(D => D.Id == id);    
+            //    return T;
         }
 
         public void Add(T entity) =>  _dbContext.Set<T>().Add(entity);

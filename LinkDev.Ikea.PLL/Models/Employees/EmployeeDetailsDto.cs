@@ -39,9 +39,9 @@ namespace LinkDev.Ikea.BLL.Models.Employees
         public string? PhoneNumber { get; set; }
         #region Adminstration
         public int CreatedBy { get; set; }
-        public DateTime CreatedOn { get; set; }
+        public DateTime? CreatedOn { get; set; }
         public int LastModifiedBy { get; set; }
-        public DateTime LastModifiedOn { get; set; }
+        public DateTime? LastModifiedOn { get; set; }
 
         [Display(Name = "Hiring Date")]
         public DateOnly HiringDate { get; set; }
