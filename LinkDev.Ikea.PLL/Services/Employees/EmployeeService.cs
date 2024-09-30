@@ -102,11 +102,11 @@ namespace LinkDev.Ikea.BLL.Services.Employees
                 CreatedBy=1,
                 LastModifiedBy=1,
                 CreatedOn= DateTime.UtcNow,
-
+    
             };
 
             if(employeeDto.Image is not null) 
-         employee.Image= await  _attachmentService.UploadFileAsync(employeeDto.Image, "Files");
+         employee.Image= await  _attachmentService.UploadFileAsync(employeeDto.Image, "Images");
 
 
             //Add 

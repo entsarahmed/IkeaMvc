@@ -92,6 +92,7 @@ namespace LinkDev.Ikea.BLL.Services.Departments
                CreationDate=departmentDto.CreationDate,
                LastModifiedBy=1,
                LastModifiedOn=DateTime.UtcNow,
+               CreatedOn = departmentDto.CreatedOn
             };   
             _unitOfWork.DepartmentRepository.Update(department);
             return await _unitOfWork.CompleteAsync();

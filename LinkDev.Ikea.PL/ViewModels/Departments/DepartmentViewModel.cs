@@ -12,5 +12,7 @@ namespace LinkDev.Ikea.PL.ViewModels.Departments
 
         [Display(Name = "Creation Date")]
         public DateOnly CreationDate { get; set; }
+
+        public DateTime CreatedOn { get; set; }
     }
 }
