@@ -18,6 +18,9 @@ namespace LinkDev.Ikea.DAL.Persistance.Data.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "8.0.8")
+                .HasAnnotation("Proxies:ChangeTracking", false)
+                .HasAnnotation("Proxies:CheckEquality", false)
+                .HasAnnotation("Proxies:LazyLoading", true)
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -38,11 +41,11 @@ namespace LinkDev.Ikea.DAL.Persistance.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedOn")
-                        .ValueGeneratedOnAddOrUpdate()
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasComputedColumnSql("GETUTCDATE()");
+                        .HasDefaultValueSql("GETUTCDATE()");
 
-                    b.Property<DateOnly>("CreationDate")
+                    b.Property<DateOnly?>("CreationDate")
                         .HasColumnType("date");
 
                     b.Property<string>("Description")
@@ -63,7 +66,7 @@ namespace LinkDev.Ikea.DAL.Persistance.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Departments");
+                    b.ToTable("Departments", (string)null);
                 });
 
             modelBuilder.Entity("LinkDev.Ikea.DAL.Entities.Employees.Employee", b =>
@@ -105,6 +108,9 @@ namespace LinkDev.Ikea.DAL.Persistance.Data.Migrations
                     b.Property<DateOnly>("HiringDate")
                         .HasColumnType("date");
 
+                    b.Property<string>("Image")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
@@ -133,17 +139,17 @@ namespace LinkDev.Ikea.DAL.Persistance.Data.Migrations
 
                     b.HasIndex("DepartmentId");
 
-                    b.ToTable("Employees");
+                    b.ToTable("Employees", (string)null);
                 });
 
             modelBuilder.Entity("LinkDev.Ikea.DAL.Entities.Employees.Employee", b =>
                 {
-                    b.HasOne("LinkDev.Ikea.DAL.Entities.Departments.Department", "Department")
+                    b.HasOne("LinkDev.Ikea.DAL.Entities.Departments.Department", "Departments")
                         .WithMany("Employees")
                         .HasForeignKey("DepartmentId")
                         .OnDelete(DeleteBehavior.SetNull);
 
-                    b.Navigation("Department");
+                    b.Navigation("Departments");
                 });
 
             modelBuilder.Entity("LinkDev.Ikea.DAL.Entities.Departments.Department", b =>

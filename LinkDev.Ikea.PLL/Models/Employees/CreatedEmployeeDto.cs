@@ -1,4 +1,5 @@
 ﻿using LinkDev.Ikea.DAL.Common.Enums;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -18,7 +19,8 @@ namespace LinkDev.Ikea.BLL.Models.Employees
         [Range(22,30)]
         public int? Age { get; set; }
 
-        [RegularExpression(@"^[0-9]{1,3}-[a-zA-Z]{5,10}-[a-zA-Z]{4,10}-[a-zA-Z]{5,10}$", ErrorMessage ="Address must be like 123-Street-City-Country")]
+        [RegularExpression(@"^\d{1,3}-[A-Za-z]+(?:-[A-Za-z]+)*-[A-Za-z]+(?:-[A-Za-z]+)*-[A-Za-z]+(?:-[A-Za-z]+)*$",
+            ErrorMessage = "Address must be like 123-Street-City-Country")]
         public string? Address { get; set; }
 
         [DataType(DataType.Currency)]
@@ -48,6 +50,9 @@ namespace LinkDev.Ikea.BLL.Models.Employees
 
         [Display(Name = "Department")]
         public int? DepartmentId { get; set; }
+
+        public IFormFile? Image {  get; set; }
+
 
     }
 }

@@ -10,7 +10,7 @@ namespace LinkDev.Ikea.DAL.Persistance.Repositories.Departments
 {
     public interface IDepartmentRepository : IGenericRepository<Department>
     {
-       IEnumerable<Department> GetSpecificDepartments();
+      // IEnumerable<Department> GetSpecificDepartments();
 
 
 

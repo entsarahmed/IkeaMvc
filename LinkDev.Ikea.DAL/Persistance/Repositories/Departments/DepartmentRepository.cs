@@ -10,17 +10,14 @@ using System.Threading.Tasks;
 
 namespace LinkDev.Ikea.DAL.Persistance.Repositories.Departments
 {
-    public class DepartmentRepository : GenericRepository<Department>, IDepartmentRepository    
+    public class DepartmentRepository : GenericRepository<Department>, IDepartmentRepository   
     {
      
-        public DepartmentRepository(ApplicationDbContext dbContext):base(dbContext) //Ask CLR for Object from ApplicationDbContext
+        public DepartmentRepository(ApplicationDbContext dbContext):base(dbContext)
         {
 
         }
 
-        public IEnumerable<Department> GetSpecificDepartments()
-        {
-            throw new NotImplementedException();
-        }
+       
     }
 }
