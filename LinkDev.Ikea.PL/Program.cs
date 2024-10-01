@@ -90,7 +90,9 @@ namespace LinkDev.Ikea.PL
                 Options.LoginPath="Account/SignIn";
                 Options.AccessDeniedPath="/Home/Error";
                 Options.ExpireTimeSpan=TimeSpan.FromDays(1);
-                Options.LogoutPath="/Account/SignIn";
+                //  Options.LogoutPath="/Account/SignIn";
+                Options.ForwardSignOut = "/Account/SignIn";
+
 
             
             });

@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace LinkDev.Ikea.PL.Controllers
 {
     public class AccountController : Controller
-    {ٍ
+    { 
 		private readonly UserManager<ApplicationUser> _userManager;
 		private readonly SignInManager<ApplicationUser> _signInManager;
 
@@ -117,6 +117,16 @@ namespace LinkDev.Ikea.PL.Controllers
 
 
 
+        }
+        #endregion
+
+
+        #region Sign Out
+        
+        public async new Task<IActionResult> SignOut()
+        {
+            await _signInManager.SignOutAsync();
+            return RedirectToAction(nameof(SignIn));
         }
         #endregion
     }

@@ -38,9 +38,9 @@ namespace LinkDev.Ikea.DAL.Persistance.Data
         public  DbSet<Employee> Employees { get; set; }
 
 
-		public DbSet<IdentityUser> IdentityUsers { get; set; }
+		//public DbSet<IdentityUser> IdentityUsers { get; set; }
 
-        public DbSet<IdentityRole> IdentityRoles { get; set; }
+  //      public DbSet<IdentityRole> IdentityRoles { get; set; }
 
     }
 }
