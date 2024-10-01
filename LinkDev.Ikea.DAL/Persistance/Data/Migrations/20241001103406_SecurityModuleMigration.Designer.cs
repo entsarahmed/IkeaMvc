@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LinkDev.Ikea.DAL.Persistance.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241001051655_SecurityModuleMigration")]
+    [Migration("20241001103406_SecurityModuleMigration")]
     partial class SecurityModuleMigration
     {
         /// <inheritdoc />
@@ -63,7 +63,7 @@ namespace LinkDev.Ikea.DAL.Persistance.Data.Migrations
                     b.Property<DateTime?>("LastModifiedOn")
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("datetime2")
-                        .HasComputedColumnSql("GETDATE()", true);
+                        .HasComputedColumnSql("GETDATE()");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -92,7 +92,9 @@ namespace LinkDev.Ikea.DAL.Persistance.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("CreatedOn")
-                        .HasColumnType("datetime2");
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("datetime2")
+                        .HasComputedColumnSql("GETUTCDATE()");
 
                     b.Property<int?>("DepartmentId")
                         .HasColumnType("int");
@@ -124,9 +126,7 @@ namespace LinkDev.Ikea.DAL.Persistance.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("LastModifiedOn")
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("datetime2")
-                        .HasComputedColumnSql("GETDATE()");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
                         .IsRequired()

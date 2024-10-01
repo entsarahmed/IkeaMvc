@@ -1,5 +1,6 @@
 ﻿using LinkDev.Ikea.DAL.Entities.Departments;
 using LinkDev.Ikea.DAL.Entities.Employees;
+using LinkDev.Ikea.DAL.Entities.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -8,7 +9,7 @@ using System.Reflection;
 namespace LinkDev.Ikea.DAL.Persistance.Data
 {
 
-    public class ApplicationDbContext : IdentityDbContext
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
@@ -36,9 +37,10 @@ namespace LinkDev.Ikea.DAL.Persistance.Data
         //Employee
         public  DbSet<Employee> Employees { get; set; }
 
-        public DbSet<IdentityUser> Users { get; set; }
 
-        public DbSet<IdentityRole> Roles { get; set; }
+		public DbSet<IdentityUser> IdentityUsers { get; set; }
+
+        public DbSet<IdentityRole> IdentityRoles { get; set; }
 
     }
 }

@@ -12,13 +12,13 @@ namespace LinkDev.Ikea.DAL.Persistance.Data.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AlterColumn<DateTime>(
-                name: "CreatedOn",
+                name: "LastModifiedOn",
                 table: "Employees",
                 type: "datetime2",
                 nullable: true,
                 oldClrType: typeof(DateTime),
                 oldType: "datetime2",
-                oldComputedColumnSql: "GETUTCDATE()");
+                oldComputedColumnSql: "GETDATE()");
 
             migrationBuilder.AlterColumn<DateTime>(
                 name: "CreatedOn",
@@ -31,14 +31,14 @@ namespace LinkDev.Ikea.DAL.Persistance.Data.Migrations
                 oldDefaultValueSql: "GETUTCDATE()");
 
             migrationBuilder.AlterColumn<DateTime>(
-                name: "LastModifiedOn",
+                name: "CreatedOn",
                 table: "Employees",
                 type: "datetime2",
                 nullable: true,
-                computedColumnSql: "GETDATE()",
+                computedColumnSql: "GETUTCDATE()",
                 oldClrType: typeof(DateTime),
                 oldType: "datetime2",
-                oldComputedColumnSql: "GETDATE()");
+                oldComputedColumnSql: "GETUTCDATE()");
 
             migrationBuilder.AlterColumn<DateTime>(
                 name: "LastModifiedOn",
@@ -46,7 +46,6 @@ namespace LinkDev.Ikea.DAL.Persistance.Data.Migrations
                 type: "datetime2",
                 nullable: true,
                 computedColumnSql: "GETDATE()",
-                stored: true,
                 oldClrType: typeof(DateTime),
                 oldType: "datetime2");
 
@@ -289,8 +288,7 @@ namespace LinkDev.Ikea.DAL.Persistance.Data.Migrations
                 computedColumnSql: "GETDATE()",
                 oldClrType: typeof(DateTime),
                 oldType: "datetime2",
-                oldNullable: true,
-                oldComputedColumnSql: "GETDATE()");
+                oldNullable: true);
 
             migrationBuilder.AlterColumn<DateTime>(
                 name: "CreatedOn",
@@ -300,7 +298,8 @@ namespace LinkDev.Ikea.DAL.Persistance.Data.Migrations
                 computedColumnSql: "GETUTCDATE()",
                 oldClrType: typeof(DateTime),
                 oldType: "datetime2",
-                oldNullable: true);
+                oldNullable: true,
+                oldComputedColumnSql: "GETUTCDATE()");
         }
     }
 }

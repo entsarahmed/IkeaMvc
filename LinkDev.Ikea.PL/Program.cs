@@ -1,11 +1,13 @@
 using LinkDev.Ikea.BLL.Common.Services.Attachments;
 using LinkDev.Ikea.BLL.Services.Departments;
 using LinkDev.Ikea.BLL.Services.Employees;
+using LinkDev.Ikea.DAL.Entities.Identity;
 using LinkDev.Ikea.DAL.Persistance.Data;
 using LinkDev.Ikea.DAL.Persistance.Repositories.Departments;
 using LinkDev.Ikea.DAL.Persistance.Repositories.Employees;
 using LinkDev.Ikea.DAL.Persistance.UnitOfWork;
 using LinkDev.Ikea.PL.Controllers.Mapping;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using System.Reflection;
@@ -50,9 +52,47 @@ namespace LinkDev.Ikea.PL
             builder.Services.AddAutoMapper(M => M.AddProfile( new MappingProfile()));
 
 
-            #endregion
 
-            var app = builder.Build();
+            //Allow Dependence Injection in AccountController
+
+            //builder.Services.AddIdentity<ApplicationUser, IdentityRole>();//Add the default Identity Configuration for the specified user and Role Type
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole>((options) =>
+            {
+                options.Password.RequiredLength = 5;
+                options.Password.RequireNonAlphanumeric = true; //#%$
+                options.Password.RequireDigit = true;
+                options.Password.RequireUppercase = true;
+                options.Password.RequireLowercase = true;
+                options.Password.RequiredUniqueChars=1;
+
+                options.User.RequireUniqueEmail = true;
+                //options.User.AllowedUserNameCharacters = "asdmfhhf;ajshs;kjjfh";
+
+                options.Lockout.AllowedForNewUsers = true;
+                options.Lockout.MaxFailedAccessAttempts=5;
+                options.Lockout.DefaultLockoutTimeSpan=TimeSpan.FromDays(5);
+
+
+
+
+            })//Add the default Identity Configuration for the specified user and Role Type
+              .AddEntityFrameworkStores<ApplicationDbContext>(); //Register Identity Scope from Dependence Injection Container
+
+
+			//Replace All
+			//         builder.Services.AddScoped<UserManager<ApplicationUser>>();
+			//builder.Services.AddScoped<SignInManager<ApplicationUser>>();
+			//builder.Services.AddScoped<RoleManager<IdentityRole>>();
+
+
+
+
+
+
+
+			#endregion
+
+			var app = builder.Build();
 
             #region Configure Kestrel Middlewares
 

@@ -34,9 +34,9 @@ namespace LinkDev.Ikea.DAL.Persistance.Data.Configurations.Employees
                 (type) => type.ToString(),
                 (type) => (EmployeeType)Enum.Parse(typeof(EmployeeType), type)
                 );
-            builder.Property(E => E.LastModifiedOn).HasComputedColumnSql("GETDATE()");
+           // builder.Property(E => E.LastModifiedOn).HasComputedColumnSql("GETDATE()");
 
-           // builder.Property(E => E.CreatedOn).HasComputedColumnSql("GETUTCDATE()");
+            builder.Property(E => E.CreatedOn).HasComputedColumnSql("GETUTCDATE()");
 
     
     
