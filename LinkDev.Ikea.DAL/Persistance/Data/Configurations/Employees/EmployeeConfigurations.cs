@@ -36,8 +36,10 @@ namespace LinkDev.Ikea.DAL.Persistance.Data.Configurations.Employees
                 );
             builder.Property(E => E.LastModifiedOn).HasComputedColumnSql("GETDATE()");
 
-            builder.Property(E => E.CreatedOn).HasComputedColumnSql("GETUTCDATE()");
+           // builder.Property(E => E.CreatedOn).HasComputedColumnSql("GETUTCDATE()");
 
+    
+    
 
             builder.HasOne(e => e.Departments)
                   .WithMany(d => d.Employees)
