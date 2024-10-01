@@ -21,6 +21,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 <body>
 	<!-- main -->
 	<div class="main-w3layouts wrapper">
+		<script src="~/lib/jquery/dist/jquery.min.js"></script>
+
 		<h1> @ViewData["Title"] </h1>
 		@RenderBody()
 		<!-- copyright -->
@@ -42,5 +44,10 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 		</ul>
 	</div>
 	<!-- //main -->
+
+	<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="~/js/site.js" asp-append-version="true"></script>
+
+	@await RenderSectionAsync("ValidationScripts", required: false)
 </body>
 </html>
