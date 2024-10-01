@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace LinkDev.Ikea.PL.Controllers
 {
     public class AccountController : Controller
-    {
+    {ٍ
 		private readonly UserManager<ApplicationUser> _userManager;
 		private readonly SignInManager<ApplicationUser> _signInManager;
 

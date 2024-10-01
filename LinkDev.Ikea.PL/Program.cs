@@ -79,14 +79,46 @@ namespace LinkDev.Ikea.PL
               .AddEntityFrameworkStores<ApplicationDbContext>(); //Register Identity Scope from Dependence Injection Container
 
 
-			//Replace All
-			//         builder.Services.AddScoped<UserManager<ApplicationUser>>();
-			//builder.Services.AddScoped<SignInManager<ApplicationUser>>();
-			//builder.Services.AddScoped<RoleManager<IdentityRole>>();
+            //Replace All
+            //         builder.Services.AddScoped<UserManager<ApplicationUser>>();
+            //builder.Services.AddScoped<SignInManager<ApplicationUser>>();
+            //builder.Services.AddScoped<RoleManager<IdentityRole>>();
 
 
+            builder.Services.ConfigureApplicationCookie(Options => {
+
+                Options.LoginPath="Account/SignIn";
+                Options.AccessDeniedPath="/Home/Error";
+                Options.ExpireTimeSpan=TimeSpan.FromDays(1);
+                Options.LogoutPath="/Account/SignIn";
+
+            
+            });
 
 
+   //         builder.Services.AddAuthentication();
+			//builder.Services.AddAuthentication("Identity.Application");
+            builder.Services.AddAuthentication(options =>
+
+            {
+                options.DefaultAuthenticateScheme = "Identity.Application";
+                options.DefaultChallengeScheme = "Identity.Application";
+            })
+                .AddCookie("Hamada", ".AspNetCore.Hamada", options =>
+                {
+					options.LoginPath="Account/Login";
+					options.AccessDeniedPath="/Home/Error";
+					options.ExpireTimeSpan=TimeSpan.FromDays(10);
+					options.LogoutPath="/Account/SignIn";
+
+				});
+    //            .AddScheme("Hamada01", ".AspNetCore.Hamada01", options =>
+    //            {
+
+    //            }).AddScheme("Hamada02", ".AspNetCore.Hamada02", options =>
+				//{
+
+				//});
 
 
 
@@ -110,10 +142,14 @@ namespace LinkDev.Ikea.PL
 
             app.UseRouting();
 
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
+
+
 
             #endregion
 

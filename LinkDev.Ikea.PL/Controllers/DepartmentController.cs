@@ -3,6 +3,7 @@ using LinkDev.Ikea.BLL.Models.Departments;
 using LinkDev.Ikea.BLL.Services.Departments;
 using LinkDev.Ikea.DAL.Entities.Departments;
 using LinkDev.Ikea.PL.ViewModels.Departments;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.DotNet.Scaffolding.Shared.Messaging;
 
@@ -10,6 +11,7 @@ namespace LinkDev.Ikea.PL.Controllers
 {
     //1. Inheritance: DepartmentController is a  Controller
     //2. Composition: DepartmentController has a IDepartmentService
+    [Authorize]
     public class DepartmentController : Controller
     {
         //[FromServices]
