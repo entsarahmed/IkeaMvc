@@ -9,12 +9,25 @@
 </div>
 <br />
 
-<div class="row justify-content-start">
+@* <div class="row justify-content-start">
     <div class="col-4">
 
         <img src="~/Files/Images/@Model.Image" class="img-fluid rounded-circle" alt="Employee Image" />
+
     </div>
 
+</div> *@
+<div class="row justify-content-start">
+    <div class="col-4">
+        @if (!string.IsNullOrEmpty(Model.Image))
+        {
+            <img src="~/Files/Images/@Model.Image" class="img-fluid rounded-circle" alt="Employee Image" />
+        }
+        else
+        {
+            <img src="~/Files/Images/placeholder.png" class="img-fluid rounded-circle" alt="Placeholder Image" />
+        }
+    </div>
 </div>
 
 <ul class="nav nav-tabs" id="employeeTabs" role="tablist">

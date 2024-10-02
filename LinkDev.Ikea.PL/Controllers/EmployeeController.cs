@@ -3,10 +3,12 @@ using LinkDev.Ikea.BLL.Models.Employees;
 using LinkDev.Ikea.BLL.Services.Departments;
 using LinkDev.Ikea.BLL.Services.Employees;
 using LinkDev.Ikea.PL.ViewModels.Employees;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LinkDev.Ikea.PL.Controllers
 {
+    [Authorize]
     public class EmployeeController : Controller
     {
 

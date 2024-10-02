@@ -3,6 +3,7 @@ using LinkDev.Ikea.BLL.Models.Departments;
 using LinkDev.Ikea.BLL.Services.Departments;
 using LinkDev.Ikea.DAL.Entities.Departments;
 using LinkDev.Ikea.PL.ViewModels.Departments;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.DotNet.Scaffolding.Shared.Messaging;
 
@@ -10,6 +11,7 @@ namespace LinkDev.Ikea.PL.Controllers
 {
     //1. Inheritance: DepartmentController is a  Controller
     //2. Composition: DepartmentController has a IDepartmentService
+    [Authorize]
     public class DepartmentController : Controller
     {
         //[FromServices]
@@ -169,7 +171,7 @@ namespace LinkDev.Ikea.PL.Controllers
             if (department is null)
                 return NotFound();//404
 
-            var departmentVM = _mapper.Map<DepartmentDetailsDto, DepartmentViewModel>(department);
+            var departmentVM = _mapper.Map<DepartmentViewModel>(department);
 
             return View(departmentVM);
            //Manual Mapping
@@ -187,10 +189,10 @@ namespace LinkDev.Ikea.PL.Controllers
 
         [HttpPost] //Post
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit([FromRoute] int? id, DepartmentViewModel departmentVM)
+        public async Task<IActionResult> Edit([FromRoute] int id, DepartmentViewModel departmentVM)
         {
-            if (id is null)
-                return BadRequest();
+            //if (id is null)
+            //    return BadRequest();
             if (!ModelState.IsValid)//Sever-Side Validation
                 return View(departmentVM);
                 
@@ -199,6 +201,8 @@ namespace LinkDev.Ikea.PL.Controllers
 
             try
             {
+                var departmentToUpdate = _mapper.Map<UpdatedDepartmentDto>(departmentVM);
+
                 //var departmentToUpdate = new UpdatedDepartmentDto()
                 //{
                 //    Id=id.Value,
@@ -208,10 +212,9 @@ namespace LinkDev.Ikea.PL.Controllers
                 //    CreationDate=departmentVM.CreationDate,
                 //};
 
-                var departmentToUpdate = _mapper.Map<UpdatedDepartmentDto>(departmentVM);
-                var updated =await _departmentService.UpdatedDepartmentAsync(departmentToUpdate) > 0;
+                var updated =await _departmentService.UpdatedDepartmentAsync(departmentToUpdate) ;
 
-                if (updated)
+                if (updated>0)
                     TempData["Message"] = "Department is Updated";
                 else
 

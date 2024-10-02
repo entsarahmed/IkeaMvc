@@ -31,7 +31,7 @@ namespace LinkDev.Ikea.BLL.Models.Employees
 
         [EmailAddress]
          [DataType(DataType.EmailAddress)]
-        public string Email { get; set; }
+        public string? Email { get; set; }
 
         [Display(Name ="Phone Number")]
         [Phone]

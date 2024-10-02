@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,7 +22,8 @@ namespace LinkDev.Ikea.BLL.Models.Employees
         public int? Age { get; set; }
 
 
-        [DataType(DataType.Currency)]
+        
+        [DisplayFormat(DataFormatString = "{0:C0}")]
         public decimal Salary { get; set; }
 
         [Display(Name ="Is Active")]

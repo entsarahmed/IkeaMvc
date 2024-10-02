@@ -13,5 +13,6 @@ namespace LinkDev.Ikea.BLL.Models.Departments
         public string Name { get; set; } = null!;
         public string Description { get; set; } = null!;
         public DateOnly CreationDate { get; set; }
+        public DateTime CreatedOn { get; set; }
     }
 }

@@ -1,10 +1,17 @@
 using LinkDev.Ikea.PL.ViewModels.Common;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
 namespace LinkDev.Ikea.PL.Controllers
 {
-    public class HomeController : Controller
+    //[Authorize(Roles ="Admin,Customer")]
+    //[Authorize(AuthenticationSchemes ="Identity.Application")]
+    //[Authorize(AuthenticationSchemes = "Hamada")]
+
+
+    [Authorize]
+	public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
 
@@ -13,6 +20,7 @@ namespace LinkDev.Ikea.PL.Controllers
             _logger = logger;
         }
 
+        [AllowAnonymous]
         public IActionResult Index()
         {
             return View();

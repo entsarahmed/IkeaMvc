@@ -53,9 +53,9 @@ namespace LinkDev.Ikea.BLL.Services.Departments
                     Description = department.Description ?? "No Description Available", // Handle potential NULLs
                     CreationDate = department.CreationDate ?? DateOnly.MinValue, // Handle potential NULLs
                     CreatedBy=department.CreatedBy,
-                    CreatedOn=department.CreatedOn,
+                    CreatedOn = department.CreatedOn.GetValueOrDefault(DateTime.Now),
                     LastModifiedBy=department.LastModifiedBy,
-                    LastModifiedOn=department.LastModifiedOn,
+                    LastModifiedOn=department.LastModifiedOn.GetValueOrDefault(DateTime.Now),
 
                 };
             return null;
@@ -92,6 +92,7 @@ namespace LinkDev.Ikea.BLL.Services.Departments
                CreationDate=departmentDto.CreationDate,
                LastModifiedBy=1,
                LastModifiedOn=DateTime.UtcNow,
+               CreatedOn = departmentDto.CreatedOn
             };   
             _unitOfWork.DepartmentRepository.Update(department);
             return await _unitOfWork.CompleteAsync();
