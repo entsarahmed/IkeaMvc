@@ -33,8 +33,6 @@ namespace LinkDev.Ikea.PL.Controllers
         }
         #endregion
 
-
-
         #region Index
         [HttpGet]
         public async Task<IActionResult> Index(string Search)
@@ -73,7 +71,6 @@ namespace LinkDev.Ikea.PL.Controllers
 
         #endregion
 
-
         #region Details
 
         [HttpGet] 
@@ -90,8 +87,6 @@ namespace LinkDev.Ikea.PL.Controllers
         }
 
         #endregion
-
-
 
         #region Create
         [HttpGet] 
@@ -170,10 +165,6 @@ namespace LinkDev.Ikea.PL.Controllers
         }
 
         #endregion
-
-
-
-
 
         #region Update
 
@@ -288,7 +279,6 @@ namespace LinkDev.Ikea.PL.Controllers
 
         #endregion
 
-
         #region Delete
 
         [HttpGet] 
@@ -337,10 +327,6 @@ namespace LinkDev.Ikea.PL.Controllers
 
         } 
         #endregion
-
-
-
-
 
     }
 }

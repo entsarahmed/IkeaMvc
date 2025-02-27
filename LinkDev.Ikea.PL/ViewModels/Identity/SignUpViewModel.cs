@@ -4,22 +4,28 @@ namespace LinkDev.Ikea.PL.ViewModels.Identity
 {
 	public class SignUpViewModel
 	{
-		[Display(Name = "First Name")]
-		public string FirstName { get; set; } = null!;
+		[Required(ErrorMessage ="First Name is Required")]
+		public string FName { get; set; }
 
-		[Display(Name = "Last Name")]
-		public string LastName { get; set; } = null!;
-		public string UserName { get; set; } = null!;
+		[Required(ErrorMessage ="Last Name is Required")]
+		public string LName { get; set; }
 
-		[EmailAddress]
-		public string Email { get; set; } =null!;
-		//[MinLength(5)]
+		[Required(ErrorMessage ="UserName is Required")]
+		public string UserName { get; set; }
+
+		[Required(ErrorMessage ="Email is Required")]
+		[EmailAddress(ErrorMessage ="Invalid Email")]
+		public string Email { get; set; }
+
+		[Required(ErrorMessage = "Password is Required")]
 		[DataType(DataType.Password)]
-		public string Password { get; set; } = null!;
+		public string Password { get; set; }
+
+		[Required(ErrorMessage ="ConfirmPassword is Required")]
 		[Display(Name ="Confirm Password")]
 		[DataType(DataType.Password)]
 		[Compare("Password",ErrorMessage ="Confirm Password doesn't match with Password")]
-		public string ConfirmPassword { get; set; } =null !;
+		public string ConfirmPassword { get; set; } 
 		public bool IsAgree { get; set; }
 	}
 }

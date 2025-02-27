@@ -56,27 +56,34 @@ namespace LinkDev.Ikea.PL
             //Allow Dependence Injection in AccountController
 
             //builder.Services.AddIdentity<ApplicationUser, IdentityRole>();//Add the default Identity Configuration for the specified user and Role Type
+         
+            //AddIdentity => Add Identity Configuration to Add Interfaces that its inside signature t
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>((options) =>
             {
-                options.Password.RequiredLength = 5;
-                options.Password.RequireNonAlphanumeric = true; //#%$
-                options.Password.RequireDigit = true;
-                options.Password.RequireUppercase = true;
-                options.Password.RequireLowercase = true;
-                options.Password.RequiredUniqueChars=1;
+             //   options.Password.RequiredLength = 5;
+                options.Password.RequireNonAlphanumeric = true; //# @ $
+                options.Password.RequireDigit = true; //123
+                options.Password.RequireUppercase = true; //SDF
+                options.Password.RequireLowercase = true;//sdf
+                //P@ssw0rd
+                //Pa$$w0rd
 
-                options.User.RequireUniqueEmail = true;
+
+                //options.Password.RequiredUniqueChars=1;
+
+               // options.User.RequireUniqueEmail = true;
                 //options.User.AllowedUserNameCharacters = "asdmfhhf;ajshs;kjjfh";
 
-                options.Lockout.AllowedForNewUsers = true;
-                options.Lockout.MaxFailedAccessAttempts=5;
-                options.Lockout.DefaultLockoutTimeSpan=TimeSpan.FromDays(5);
+                //options.Lockout.AllowedForNewUsers = true;
+                //options.Lockout.MaxFailedAccessAttempts=5;
+                //options.Lockout.DefaultLockoutTimeSpan=TimeSpan.FromDays(5);
 
 
 
 
             })//Add the default Identity Configuration for the specified user and Role Type
-              .AddEntityFrameworkStores<ApplicationDbContext>(); //Register Identity Scope from Dependence Injection Container
+              .AddEntityFrameworkStores<ApplicationDbContext>()
+              .AddDefaultTokenProviders(); //Register Identity Scope from Dependence Injection Container
 
 
             //Replace All
@@ -87,7 +94,7 @@ namespace LinkDev.Ikea.PL
 
             builder.Services.ConfigureApplicationCookie(Options => {
 
-                Options.LoginPath="Account/SignIn";
+                Options.LoginPath="/Account/SignIn";
                 Options.AccessDeniedPath="/Home/Error";
                 Options.ExpireTimeSpan=TimeSpan.FromDays(1);
                 //  Options.LogoutPath="/Account/SignIn";
@@ -108,7 +115,7 @@ namespace LinkDev.Ikea.PL
             })
                 .AddCookie("Hamada", ".AspNetCore.Hamada", options =>
                 {
-					options.LoginPath="Account/Login";
+					options.LoginPath="/Account/Login";
 					options.AccessDeniedPath="/Home/Error";
 					options.ExpireTimeSpan=TimeSpan.FromDays(10);
 					options.LogoutPath="/Account/SignIn";
@@ -143,13 +150,12 @@ namespace LinkDev.Ikea.PL
             app.UseStaticFiles();
 
             app.UseRouting();
-
             app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+                pattern: "{controller=Account}/{action=SignIn}/{id?}");
 
 
 
