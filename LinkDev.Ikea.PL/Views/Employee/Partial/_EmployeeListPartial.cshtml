@@ -11,7 +11,7 @@
         <td>@Html.DisplayFor(x => employee.IsActive)</td>
         <td>@Html.DisplayFor(x => employee.Gender)</td>
 
-        <partial name="_ButtonPartial" model="@employee.Id" />
+        <partial name="_ButtonPartial" model="@employee.Id.ToString()" />
 
     </tr>
     <!-- Modal -->

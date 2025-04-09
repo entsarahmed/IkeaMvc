@@ -48,7 +48,7 @@
                     <td>@Html.DisplayFor(X => department.Name)</td>
                     <td>@Html.DisplayFor(X => department.CreationDate)</td>
 
-                    <partial name="_ButtonPartial" model="@department.Id" />
+                    <partial name="_ButtonPartial" model="@department.Id.ToString()" />
 
                 </tr>
 

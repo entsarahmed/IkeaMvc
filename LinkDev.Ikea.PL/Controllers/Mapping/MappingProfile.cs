@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using LinkDev.Ikea.BLL.Models.Departments;
 using LinkDev.Ikea.BLL.Models.Employees;
+using LinkDev.Ikea.DAL.Entities.Identity;
 using LinkDev.Ikea.PL.ViewModels.Departments;
 using LinkDev.Ikea.PL.ViewModels.Employees;
+using LinkDev.Ikea.PL.ViewModels.Users;
 
 namespace LinkDev.Ikea.PL.Controllers.Mapping
 {
@@ -33,6 +35,13 @@ namespace LinkDev.Ikea.PL.Controllers.Mapping
 
 
             #endregion
+
+            #region USer
+            CreateMap<ApplicationUser, UserViewModel>().ReverseMap();
+
+            #endregion
+
+
         }
     }
 }
